@@ -3,35 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Draft Calcetto 5v5 - Extreme Edition</title>
+  <title>Draft Calcetto 5v5</title>
   <style>
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0a0a0c; color: white; text-align: center; margin: 20px; }
-    .container { max-width: 900px; margin: auto; }
-    .mode-selection { background: #15151a; padding: 25px; border-radius: 12px; border: 2px solid #333; margin-bottom: 20px; }
-    .room-inputs { display: flex; justify-content: center; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
-    input[type="text"] { padding: 10px; font-size: 16px; border-radius: 5px; border: 1px solid #444; background: #222; color: white; text-align: center; text-transform: uppercase; width: 150px; }
-    .dashboard { display: flex; justify-content: space-around; margin-bottom: 20px; gap: 15px; }
-    .player-box { background: #15151a; padding: 15px; border-radius: 10px; width: 45%; border: 2px solid #333; }
-    .card { background: linear-gradient(135deg, #1e1e28, #121218); border: 2px solid #00ff66; padding: 20px; border-radius: 15px; width: 260px; margin: 20px auto; color: #fff; font-weight: bold; box-shadow: 0 4px 20px rgba(0, 255, 102, 0.2); position: relative; }
-    .card.bidone { border-color: #ff0055; box-shadow: 0 4px 20px rgba(255, 0, 85, 0.2); }
-    .card.legenda { border-color: #ffb700; box-shadow: 0 4px 20px rgba(255, 183, 0, 0.3); }
-    .card h2 { margin: 5px 0; font-size: 26px; color: #fff; }
-    .btn { padding: 10px 15px; font-size: 14px; margin: 4px; cursor: pointer; border: none; border-radius: 5px; font-weight: bold; transition: 0.2s; }
-    .btn:hover { opacity: 0.9; transform: scale(1.02); }
+    body { font-family: sans-serif; background: #111; color: white; text-align: center; padding: 15px; margin: 0; }
+    .container { max-width: 600px; margin: auto; }
+    .card { background: #222; border: 2px solid #00ff66; padding: 15px; border-radius: 10px; margin: 15px 0; }
+    .btn { padding: 12px 18px; font-size: 16px; margin: 5px; cursor: pointer; border: none; border-radius: 6px; font-weight: bold; }
     .btn-p1 { background: #3498db; color: white; }
     .btn-p2 { background: #e74c3c; color: white; }
-    .btn-pass { background: #2ecc71; color: white; width: 80%; font-size: 16px; margin-top: 15px; }
-    .btn-exit { background: #ff0055; color: white; margin-bottom: 15px; }
-    .btn-group { margin-bottom: 8px; }
-    ul { list-style: none; padding: 0; text-align: left; font-size: 14px; }
-    li { background: #22222a; padding: 6px 10px; border-radius: 5px; margin-bottom: 5px; }
-    .pitch { background: #1b5e20; border: 3px solid #fff; border-radius: 10px; padding: 15px; margin: 20px auto; max-width: 600px; position: relative; }
-    .pitch-line { border-top: 2px dashed rgba(255,255,255,0.4); margin: 15px 0; }
-    .pitch-team-title { font-size: 14px; font-weight: bold; text-transform: uppercase; margin-bottom: 8px; }
-    .formation-row { display: flex; justify-content: space-around; margin: 10px 0; }
-    .field-player { background: rgba(0,0,0,0.6); border: 1px solid #fff; border-radius: 6px; padding: 4px 8px; font-size: 12px; min-width: 70px; }
-    .commentary-box { background: #111116; border: 1px solid #333; height: 180px; overflow-y: auto; text-align: left; padding: 10px; font-family: monospace; font-size: 13px; border-radius: 8px; margin-top: 15px; }
-    .scoreboard { font-size: 28px; font-weight: bold; background: #15151a; padding: 10px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #444; }
+    .btn-pass { background: #2ecc71; color: white; width: 90%; font-size: 18px; margin-top: 10px; }
+    .btn-exit { background: #ff0055; color: white; }
+    ul { list-style: none; padding: 0; text-align: left; }
+    li { background: #333; padding: 6px; margin-bottom: 4px; border-radius: 4px; font-size: 14px; }
+    .pitch { background: #1b5e20; border: 2px solid #fff; padding: 10px; border-radius: 8px; margin-top: 15px; }
+    .field-player { background: rgba(0,0,0,0.7); border: 1px solid #fff; padding: 4px; margin: 2px; border-radius: 4px; display: inline-block; font-size: 12px; }
   </style>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -39,237 +24,292 @@
 <body>
 
 <div class="container">
-  <h1>⚽ Draft Calcetto 5v5 - Extreme Edition</h1>
+  <h1>⚽ Draft Calcetto 5v5</h1>
 
-  <div id="mode-selection" class="mode-selection">
-    <h2>Scegli Modalità di Gioco</h2>
-    <button class="btn btn-p1" style="font-size: 16px; padding: 12px 20px;" onclick="startLocalGame()">📱 In Locale (Stesso Telefono)</button>
-    
-    <div style="margin-top: 20px; border-top: 1px solid #444; padding-top: 15px;">
-      <h3>🌐 Modalità Online (2 Telefoni)</h3>
-      <div class="room-inputs">
-        <button class="btn btn-p2" onclick="createOnlineRoom()">Crea Stanza</button>
-        <span>oppure</span>
-        <input type="text" id="room-code-input" placeholder="Codice" maxlength="4">
-        <button class="btn btn-pass" style="width: auto; margin: 0;" onclick="joinOnlineRoom()">Entra</button>
-      </div>
-      <p id="room-status" style="color: #f1c40f; margin-top: 10px;"></p>
-    </div>
+  <!-- MENU INIZIALE -->
+  <div id="mode-selection" style="background:#222; padding:20px; border-radius:10px;">
+    <h2>Seleziona Modalità</h2>
+    <button class="btn btn-p1" onclick="startLocalGame()">📱 Gioca In Locale (Offline)</button>
+    <hr style="border-color:#444; margin:15px 0;">
+    <h3>🌐 Gioca Online</h3>
+    <button class="btn btn-p2" onclick="createOnlineRoom()">Crea Stanza</button>
+    <br><br>
+    <input type="text" id="room-code-input" placeholder="CODICE STANZA" style="padding:10px; text-transform:uppercase; text-align:center;" maxlength="4">
+    <button class="btn btn-pass" style="width:auto;" onclick="joinOnlineRoom()">Entra</button>
+    <p id="room-status" style="color:#f1c40f;"></p>
   </div>
 
-  <div id="game-container" style="display: none;">
-    <button class="btn btn-exit" onclick="confirmExit()">🏠 Torna al Menu Principale</button>
+  <!-- CONTAINER GIOCO -->
+  <div id="game-container" style="display:none;">
+    <button class="btn btn-exit" onclick="location.reload()">🏠 Torna al Menu</button>
 
-    <div class="dashboard">
-      <div class="player-box">
-        <h3 style="color: #3498db; margin-top: 0;">Giocatore 1</h3>
-        <p>Budget: <strong><span id="p1-budget">20.00</span> €</strong></p>
-        <p>Squadra: <span id="p1-count">0</span>/5</p>
+    <div style="display:flex; justify-content:space-between; margin-top:10px;">
+      <div style="width:48%; background:#222; padding:8px; border-radius:6px;">
+        <h4 style="color:#3498db; margin:0;">G1 (€ <span id="p1-budget">20.00</span>)</h4>
         <ul id="p1-team"></ul>
       </div>
-      <div class="player-box">
-        <h3 style="color: #e74c3c; margin-top: 0;">Giocatore 2</h3>
-        <p>Budget: <strong><span id="p2-budget">20.00</span> €</strong></p>
-        <p>Squadra: <span id="p2-count">0</span>/5</p>
+      <div style="width:48%; background:#222; padding:8px; border-radius:6px;">
+        <h4 style="color:#e74c3c; margin:0;">G2 (€ <span id="p2-budget">20.00</span>)</h4>
         <ul id="p2-team"></ul>
       </div>
     </div>
 
-    <div id="auction-area">
-      <div id="card-box" class="card">
-        <div id="card-role" style="font-size: 18px; color: #00ff66;">POR</div>
-        <h2 id="card-name">Buffon</h2>
-        <div style="font-size: 32px; margin-top: 5px; color: #ffb700;" id="card-ovr">OVR: 90</div>
-        <div style="font-size: 13px; margin-top: 5px; color: #ff0055;" id="card-desc">Leggenda infinita</div>
-        <div style="font-size: 14px; margin-top: 5px; color: #aaa;">Valore Base: <span id="card-base-price">2.00</span> €</div>
-      </div>
+    <!-- ASTA -->
+    <div id="auction-area" class="card">
+      <div id="card-role" style="color:#00ff66; font-weight:bold;">POR</div>
+      <h2 id="card-name" style="margin:5px 0;">NOME GIOCATORE</h2>
+      <div id="card-ovr" style="font-size:24px; color:#ffb700;">OVR: 90</div>
+      <div id="card-desc" style="font-size:12px; color:#aaa; margin:5px 0;">-</div>
+      <div>Base: <span id="card-base-price">2.00</span>€</div>
+      <hr style="border-color:#333;">
+      <h4>Offerta: <span id="current-bid">0.00</span>€ (Da: <span id="high-bidder">Nessuno</span>)</h4>
       
-      <h3>Offerta Attuale: <span id="current-bid">0.00</span> € (Da: <span id="high-bidder">Nessuno</span>)</h3>
-      
-      <div class="btn-group">
-        <span style="color: #3498db; font-weight: bold;">G1:</span>
-        <button class="btn btn-p1" onclick="placeBid(1, 0.5)">+0.50 €</button>
-        <button class="btn btn-p1" onclick="placeBid(1, 1.0)">+1.00 €</button>
-      </div>
-
-      <div class="btn-group">
-        <span style="color: #e74c3c; font-weight: bold;">G2:</span>
-        <button class="btn btn-p2" onclick="placeBid(2, 0.5)">+0.50 €</button>
-        <button class="btn btn-p2" onclick="placeBid(2, 1.0)">+1.00 €</button>
-      </div>
-
       <div>
-        <button class="btn btn-pass" onclick="passAuction()">Aggiudica / Passa Carta</button>
+        <span style="color:#3498db;">G1:</span>
+        <button class="btn btn-p1" onclick="placeBid(1, 0.5)">+0.50€</button>
+        <button class="btn btn-p1" onclick="placeBid(1, 1.0)">+1.00€</button>
       </div>
+      <div style="margin-top:5px;">
+        <span style="color:#e74c3c;">G2:</span>
+        <button class="btn btn-p2" onclick="placeBid(2, 0.5)">+0.50€</button>
+        <button class="btn btn-p2" onclick="placeBid(2, 1.0)">+1.00€</button>
+      </div>
+      <button class="btn btn-pass" onclick="passAuction()">Aggiudica / Passa</button>
     </div>
 
-    <!-- SCHERMATA RIEPILOGO OVERALL PRIMA DEL MATCH -->
-    <div id="overall-summary-area" style="display:none; margin-top:20px; background: #15151a; padding: 20px; border-radius: 12px; border: 2px solid #ffb700;">
-      <h2 style="color: #ffb700; margin-top:0;">CONFRONTO OVERALL SQUADRE</h2>
-      <p style="color: #aaa; font-size: 14px;">Somma complessiva dei valori tecnici in campo:</p>
-      
-      <div style="display: flex; justify-content: space-around; margin: 20px 0;">
-        <div style="background: #22222a; padding: 15px; border-radius: 8px; width: 40%; border: 1px solid #3498db;">
-          <h4 style="color: #3498db; margin:0;">Giocatore 1</h4>
-          <div id="sum-ovr-1" style="font-size: 32px; font-weight: bold; margin-top: 5px;">0</div>
-        </div>
-        <div style="background: #22222a; padding: 15px; border-radius: 8px; width: 40%; border: 1px solid #e74c3c;">
-          <h4 style="color: #e74c3c; margin:0;">Giocatore 2</h4>
-          <div id="sum-ovr-2" style="font-size: 32px; font-weight: bold; margin-top: 5px;">0</div>
-        </div>
+    <!-- RIEPILOGO OVERALL -->
+    <div id="summary-area" style="display:none; background:#222; padding:15px; border-radius:10px; margin-top:15px;">
+      <h2>CONFRONTO OVERALL</h2>
+      <div style="display:flex; justify-content:space-around; font-size:20px;">
+        <div>G1: <strong id="sum-ovr-1" style="color:#3498db;">0</strong></div>
+        <div>G2: <strong id="sum-ovr-2" style="color:#e74c3c;">0</strong></div>
       </div>
-      
-      <div id="summary-favorite-text" style="font-size: 16px; color: #2ecc71; margin-bottom: 20px; font-weight: bold;"></div>
-      <button class="btn btn-pass" style="width: 50%; font-size: 16px;" onclick="proceedToPitchMatch()">Vai al Campo di Gioco ⚽</button>
+      <p id="summary-fav" style="color:#2ecc71; font-weight:bold;"></p>
+      <button class="btn btn-pass" onclick="showPitch()">Scendi in Campo ⚽</button>
     </div>
 
-    <div id="match-area" style="display:none; margin-top:20px;">
-      <div class="scoreboard">
-        <span style="color: #3498db;">G1</span> <span id="score-p1">0</span> - <span id="score-p2">0</span> <span style="color: #e74c3c;">G2</span>
-        <div style="font-size: 14px; color: #aaa; margin-top: 5px;" id="match-timer">Minuto: 0'</div>
-      </div>
-
-      <div class="pitch">
-        <div class="pitch-team-title" style="color: #3498db;">Giocatore 1 (1-1-2-1)</div>
-        <div class="formation-row" id="p1-field-att"></div>
-        <div class="formation-row" id="p1-field-mid"></div>
-        <div class="formation-row" id="p1-field-def"></div>
-        <div class="formation-row" id="p1-field-gk"></div>
-
-        <div class="pitch-line"></div>
-
-        <div class="pitch-team-title" style="color: #e74c3c;">Giocatore 2 (1-1-2-1)</div>
-        <div class="formation-row" id="p2-field-gk"></div>
-        <div class="formation-row" id="p2-field-def"></div>
-        <div class="formation-row" id="p2-field-mid"></div>
-        <div class="formation-row" id="p2-field-att"></div>
-      </div>
-
-      <button class="btn btn-pass" id="btn-start-sim" style="font-size: 18px; width: 60%;" onclick="startMatchSimulation()">Simula Partita ⚽</button>
-
-      <div class="commentary-box" id="commentary-log">
-        <div>-- In attesa del fischio d'inizio --</div>
-      </div>
+    <!-- PARTITA -->
+    <div id="match-area" style="display:none;">
+      <h3>Risultato: <span id="score-p1">0</span> - <span id="score-p2">0</span> (<span id="match-timer">0'</span>)</h3>
+      <div class="pitch" id="pitch-container"></div>
+      <button class="btn btn-pass" id="btn-sim" onclick="startMatchSimulation()">Simula Partita ⚽</button>
+      <div id="commentary" style="background:#000; height:120px; overflow-y:auto; text-align:left; padding:8px; font-family:monospace; margin-top:10px; font-size:12px;"></div>
     </div>
 
-    <div id="result-area" style="display:none; margin-top:20px;">
-      <h2 id="winner-text"></h2>
-      <button class="btn btn-p1" style="font-size: 18px; padding: 12px 25px;" onclick="location.reload()">Gioca Un'Altra Partita</button>
+    <!-- RISULTATO FINALE -->
+    <div id="result-area" style="display:none; margin-top:15px;">
+      <h1 id="winner-text"></h1>
+      <button class="btn btn-p1" onclick="location.reload()">Nuova Partita</button>
     </div>
   </div>
 </div>
 
 <script>
-  const firebaseConfig = {
-    databaseURL: "https://draftcalcettoonline-default-rtdb.firebaseio.com"
-  };
-  
-  let db = null, roomRef = null, isOnline = false, myPlayerNum = 1, currentRoomCode = "";
-
+  // INIZIALIZZAZIONE FIREBASE SICURA
+  let db = null, roomRef = null, isOnline = false, myPlayerNum = 1;
   try {
-    firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp({ databaseURL: "https://draftcalcettoonline-default-rtdb.firebaseio.com" });
     db = firebase.database();
-  } catch(e) {}
+  } catch(e) {
+    console.log("Firebase non disponibile, modalità offline attiva.");
+  }
 
-  // DATABASE SICURO E COMPLETO
+  // DATABASE ESSENZIALE PER EVITARE BLOCCHI
   const rawPlayers = [
-    // PORTIERI
-    { name: "Yashin", role: "POR", ovr: 91, price: 3.00, type: "legenda", desc: "Il ragno nero." },
-    { name: "Buffon", role: "POR", ovr: 92, price: 3.50, type: "legenda", desc: "Leggenda infinita." },
-    { name: "Zoff", role: "POR", ovr: 90, price: 2.50, type: "legenda", desc: "Muro storico azzurro." },
-    { name: "Schmeichel", role: "POR", ovr: 89, price: 2.00, type: "legenda", desc: "Presenza monumentale." },
-    { name: "Casillas", role: "POR", ovr: 90, price: 2.50, type: "legenda", desc: "San Iker." },
-    { name: "Neuer", role: "POR", ovr: 91, price: 3.00, type: "normal", desc: "Portiere di movimento." },
-    { name: "Courtois", role: "POR", ovr: 89, price: 2.00, type: "normal", desc: "Saracinesca totale." },
-    { name: "Donnarumma", role: "POR", ovr: 88, price: 1.50, type: "normal", desc: "Reattivo e decisivo." },
-    { name: "Maignan", role: "POR", ovr: 87, price: 1.50, type: "normal", desc: "Magic Mike." },
-    { name: "Taibi", role: "POR", ovr: 62, price: 1.00, type: "bidone", desc: "La papera passata sotto le gambe." },
-
-    // DIFENSORI
-    { name: "Maldini", role: "DIF", ovr: 94, price: 4.00, type: "legenda", desc: "Eleganza pura." },
-    { name: "Beckenbauer", role: "DIF", ovr: 93, price: 3.50, type: "legenda", desc: "Il Kaiser." },
-    { name: "Baresi", role: "DIF", ovr: 92, price: 3.00, type: "legenda", desc: "Anticipo e classe." },
-    { name: "Cannavaro", role: "DIF", ovr: 90, price: 2.50, type: "legenda", desc: "Pallone d'Oro difensivo." },
-    { name: "Nesta", role: "DIF", ovr: 91, price: 2.80, type: "legenda", desc: "Chiusura regale." },
-    { name: "Roberto Carlos", role: "DIF", ovr: 92, price: 3.00, type: "legenda", desc: "Mancino atomico." },
-    { name: "Sergio Ramos", role: "DIF", ovr: 89, price: 2.00, type: "normal", desc: "Leader goleador." },
-    { name: "Van Dijk", role: "DIF", ovr: 89, price: 2.00, type: "normal", desc: "Colosso insuperabile." },
-    { name: "Chiellini", role: "DIF", ovr: 88, price: 1.80, type: "normal", desc: "Ruvido e insuperabile." },
-    { name: "Theo Hernandez", role: "DIF", ovr: 86, price: 1.50, type: "normal", desc: "Freccia." },
-    { name: "Jonathan (Fenomeno)", role: "DIF", ovr: 64, price: 1.00, type: "bidone", desc: "Il vero fenomeno... ironico." },
-    { name: "Bruno Peres", role: "DIF", ovr: 63, price: 1.00, type: "bidone", desc: "Palo clamoroso." },
-
-    // CENTROCAMPISTI
-    { name: "Zidane", role: "CEN", ovr: 94, price: 4.00, type: "legenda", desc: "Classe pura." },
-    { name: "Cruyff", role: "CEN", ovr: 94, price: 4.00, type: "legenda", desc: "Genio totale." },
-    { name: "Maradona (Trequartista)", role: "CEN", ovr: 95, price: 4.50, type: "legenda", desc: "Magia pura." },
-    { name: "Ronaldinho", role: "CEN", ovr: 93, price: 3.50, type: "legenda", desc: "Sorriso divino." },
-    { name: "Iniesta", role: "CEN", ovr: 93, price: 3.50, type: "legenda", desc: "Illusionista." },
-    { name: "Pirlo", role: "CEN", ovr: 90, price: 2.50, type: "legenda", desc: "Geometrie celesti." },
-    { name: "Modric", role: "CEN", ovr: 91, price: 2.80, type: "normal", desc: "Inossidabile." },
-    { name: "De Bruyne", role: "CEN", ovr: 91, price: 2.50, type: "normal", desc: "Visione laser." },
-    { name: "Bellingham", role: "CEN", ovr: 90, price: 2.00, type: "normal", desc: "Incursore." },
-    { name: "Barella", role: "CEN", ovr: 87, price: 1.50, type: "normal", desc: "Grinta e inserimenti." },
-    { name: "Taider", role: "CEN", ovr: 60, price: 1.00, type: "bidone", desc: "Correva a vuoto." },
-    { name: "Kondogbia", role: "CEN", ovr: 79, price: 1.00, type: "bidone", desc: "Luci e ombre." },
-
-    // ATTACCANTI
-    { name: "Pelé", role: "ATT", ovr: 95, price: 4.50, type: "legenda", desc: "O Rei del gol." },
-    { name: "Maradona", role: "ATT", ovr: 95, price: 4.50, type: "legenda", desc: "Il Futebol divino." },
-    { name: "Messi", role: "ATT", ovr: 95, price: 4.50, type: "legenda", desc: "Alieno." },
-    { name: "Cristiano Ronaldo", role: "ATT", ovr: 94, price: 4.00, type: "legenda", desc: "Macchina da gol." },
-    { name: "Ronaldo Nazario", role: "ATT", ovr: 94, price: 4.00, type: "legenda", desc: "Il Fenomeno." },
-    { name: "Van Basten", role: "ATT", ovr: 93, price: 3.50, type: "legenda", desc: "Cigno di Utrecht." },
-    { name: "Baggio", role: "ATT", ovr: 92, price: 3.00, type: "legenda", desc: "Codino divino." },
-    { name: "Mbappé", role: "ATT", ovr: 91, price: 2.50, type: "normal", desc: "Velocità supersonica." },
-    { name: "Haaland", role: "ATT", ovr: 90, price: 2.00, type: "normal", desc: "Cyborg spietato." },
-    { name: "Lautaro Martinez", role: "ATT", ovr: 88, price: 1.80, type: "normal", desc: "Toro scatenato." },
-    { name: "Lord Bendtner", role: "ATT", ovr: 62, price: 1.00, type: "bidone", desc: "Si credeva il migliore." },
-    { name: "Gabigol", role: "ATT", ovr: 65, price: 1.00, type: "bidone", desc: "Più festeggiamenti." }
+    // POR
+    { name: "Buffon", role: "POR", ovr: 92, price: 3.50, type: "legenda", desc: "Leggenda" },
+    { name: "Neuer", role: "POR", ovr: 91, price: 3.00, type: "normal", desc: "Portiere moderno" },
+    { name: "Yashin", role: "POR", ovr: 91, price: 3.00, type: "legenda", desc: "Ragno Nero" },
+    { name: "Taibi", role: "POR", ovr: 62, price: 1.00, type: "bidone", desc: "Papera storica" },
+    // DIF
+    { name: "Maldini", role: "DIF", ovr: 94, price: 4.00, type: "legenda", desc: "Muro rossonero" },
+    { name: "Beckenbauer", role: "DIF", ovr: 93, price: 3.50, type: "legenda", desc: "Il Kaiser" },
+    { name: "Van Dijk", role: "DIF", ovr: 89, price: 2.00, type: "normal", desc: "Roccia" },
+    { name: "Jonathan", role: "DIF", ovr: 64, price: 1.00, type: "bidone", desc: "Il Fenomeno" },
+    // CEN
+    { name: "Zidane", role: "CEN", ovr: 94, price: 4.00, type: "legenda", desc: "Classe pura" },
+    { name: "Ronaldinho", role: "CEN", ovr: 93, price: 3.50, type: "legenda", desc: "Magia" },
+    { name: "Pirlo", role: "CEN", ovr: 90, price: 2.50, type: "legenda", desc: "Metronomo" },
+    { name: "De Bruyne", role: "CEN", ovr: 91, price: 2.50, type: "normal", desc: "Assistman" },
+    { name: "Barella", role: "CEN", ovr: 87, price: 1.50, type: "normal", desc: "Grinta" },
+    { name: "Taider", role: "CEN", ovr: 60, price: 1.00, type: "bidone", desc: "Meteora" },
+    // ATT
+    { name: "Messi", role: "ATT", ovr: 95, price: 4.50, type: "legenda", desc: "Alieno" },
+    { name: "CR7", role: "ATT", ovr: 94, price: 4.00, type: "legenda", desc: "Bomber" },
+    { name: "Ronaldo Nazario", role: "ATT", ovr: 94, price: 4.00, type: "legenda", desc: "Fenomeno" },
+    { name: "Lord Bendtner", role: "ATT", ovr: 62, price: 1.00, type: "bidone", desc: "Mito" }
   ];
 
-  function shuffle(array) {
-    let currentIndex = array.length, randomIndex;
-    while (currentIndex !== 0) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-      [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
-    }
-    return array;
+  function shuffle(arr) {
+    return arr.sort(() => Math.random() - 0.5);
   }
 
-  // Generatore sicuro al 100% delle 10 carte (2 POR, 2 DIF, 4 CEN, 2 ATT)
-  function generateBalancedDeck() {
-    let pors = shuffle(rawPlayers.filter(p => p.role === "POR")).slice(0, 2);
-    let difs = shuffle(rawPlayers.filter(p => p.role === "DIF")).slice(0, 2);
-    let cens = shuffle(rawPlayers.filter(p => p.role === "CEN")).slice(0, 4);
-    let atts = shuffle(rawPlayers.filter(p => p.role === "ATT")).slice(0, 2);
-    return shuffle([...pors, ...difs, ...cens, ...atts]);
+  function generateDeck() {
+    let p = shuffle(rawPlayers.filter(x => x.role === "POR")).slice(0, 2);
+    let d = shuffle(rawPlayers.filter(x => x.role === "DIF")).slice(0, 2);
+    let c = shuffle(rawPlayers.filter(x => x.role === "CEN")).slice(0, 4);
+    let a = shuffle(rawPlayers.filter(x => x.role === "ATT")).slice(0, 2);
+    return shuffle([...p, ...d, ...c, ...a]);
   }
 
-  let players = [];
-  let currentIndex = 0, currentBid = 0, highestBidder = null;
-  const p1 = { budget: 20.00, team: [], roles: { POR:0, DIF:0, CEN:0, ATT:0 } };
-  const p2 = { budget: 20.00, team: [], roles: { POR:0, DIF:0, CEN:0, ATT:0 } };
+  let players = [], currentIndex = 0, currentBid = 0, highestBidder = null;
+  const p1 = { budget: 20.0, team: [], roles: { POR:0, DIF:0, CEN:0, ATT:0 } };
+  const p2 = { budget: 20.0, team: [], roles: { POR:0, DIF:0, CEN:0, ATT:0 } };
 
   function startLocalGame() {
     isOnline = false;
-    currentIndex = 0;
-    p1.budget = 20.00; p1.team = []; p1.roles = { POR:0, DIF:0, CEN:0, ATT:0 };
-    p2.budget = 20.00; p2.team = []; p2.roles = { POR:0, DIF:0, CEN:0, ATT:0 };
-    players = generateBalancedDeck();
-
+    players = generateDeck();
     document.getElementById("mode-selection").style.display = "none";
     document.getElementById("game-container").style.display = "block";
-    document.getElementById("auction-area").style.display = "block";
-    document.getElementById("match-area").style.display = "none";
-    document.getElementById("overall-summary-area").style.display = "none";
-    document.getElementById("result-area").style.display = "none";
-    
-    updateUI();
     loadCard();
   }
 
-  function confirmExit() {
-    if (confirm("Vuoi davvero abbandonare la partita e tornare al menu principale?")) {
-      location.reload();
+  function createOnlineRoom() {
+    if (!db) return alert("Firebase non connesso!");
+    isOnline = true; myPlayerNum = 1;
+    let code = Math.random().toString(36).substring(2, 6).toUpperCase();
+    players = generateDeck();
+    roomRef = db.ref("rooms/" + code);
+    roomRef.set({ players, currentIndex:0, currentBid:0, highestBidder:null, p1, p2, status:"waiting" });
+    document.getElementById("room-status").innerText = "Stanza: " + code + " (In attesa...)";
+    
+    roomRef.on("value", snap => {
+      let d = snap.val(); if (!d) return;
+      syncData(d);
+      if (d.status === "ready" && document.getElementById("game-container").style.display === "none") {
+        document.getElementById("mode-selection").style.display = "none";
+        document.getElementById("game-container").style.display = "block";
+      }
+    });
+  }
+
+  function joinOnlineRoom() {
+    let code = document.getElementById("room-code-input").value.trim().toUpperCase();
+    if (code.length !== 4) return alert("Codice a 4 lettere!");
+    isOnline = true; myPlayerNum = 2;
+    roomRef = db.ref("rooms/" + code);
+    roomRef.once("value", snap => {
+      if (!snap.exists()) return alert("Stanza non trovata!");
+      roomRef.update({ status: "ready" });
+      document.getElementById("mode-selection").style.display = "none";
+      document.getElementById("game-container").style.display = "block";
+      roomRef.on("value", s => { if (s.val()) syncData(s.val()); });
+    });
+  }
+
+  function syncData(d) {
+    if (d.players) players = d.players;
+    currentIndex = d.currentIndex; currentBid = d.currentBid; highestBidder = d.highestBidder;
+    if (d.p1) Object.assign(p1, d.p1); if (d.p2) Object.assign(p2, d.p2);
+    updateUI();
+    if (p1.team.length === 5 && p2.team.length === 5) showSummary();
+    else renderCard();
+  }
+
+  function renderCard() {
+    if (currentIndex >= players.length) return showSummary();
+    let c = players[currentIndex];
+    document.getElementById("card-role").innerText = c.role;
+    document.getElementById("card-name").innerText = c.name;
+    document.getElementById("card-ovr").innerText = "OVR: " + c.ovr;
+    document.getElementById("card-desc").innerText = c.desc;
+    document.getElementById("card-base-price").innerText = c.price.toFixed(2);
+    document.getElementById("current-bid").innerText = currentBid.toFixed(2);
+    document.getElementById("high-bidder").innerText = highestBidder ? "G" + highestBidder : "Nessuno";
+  }
+
+  function loadCard() {
+    if (p1.team.length === 5 && p2.team.length === 5) return showSummary();
+    if (currentIndex >= players.length) return showSummary();
+    currentBid = 0; highestBidder = null;
+    if (isOnline) pushState(); else renderCard();
+  }
+
+  function canBuy(pObj, role) {
+    if (pObj.team.length >= 5) return false;
+    if (role === "CEN" && pObj.roles.CEN >= 2) return false;
+    if (role !== "CEN" && pObj.roles[role] >= 1) return false;
+    return true;
+  }
+
+  function placeBid(pNum, amt) {
+    if (isOnline && pNum !== myPlayerNum) return alert("Non è il tuo turno!");
+    let pObj = pNum === 1 ? p1 : p2;
+    let c = players[currentIndex];
+    if (!canBuy(pObj, c.role)) return alert("Ruolo già occupato!");
+    
+    let nextBid = (highestBidder === null) ? amt : currentBid + amt;
+    if (nextBid > (pObj.budget - (4 - pObj.team.length))) return alert("Budget insufficiente!");
+
+    currentBid = nextBid; highestBidder = pNum;
+    if (isOnline) pushState(); else renderCard();
+  }
+
+  function passAuction() {
+    if (highestBidder !== null) {
+      let winner = highestBidder === 1 ? p1 : p2;
+      let c = players[currentIndex];
+      winner.budget -= currentBid; winner.team.push(c); winner.roles[c.role]++;
+      updateUI();
+    }
+    currentIndex++;
+    loadCard();
+  }
+
+  function pushState() {
+    if (roomRef) roomRef.update({ currentIndex, currentBid, highestBidder, p1, p2 });
+  }
+
+  function updateUI() {
+    document.getElementById("p1-budget").innerText = p1.budget.toFixed(2);
+    document.getElementById("p2-budget").innerText = p2.budget.toFixed(2);
+    document.getElementById("p1-team").innerHTML = p1.team.map(p => `<li>[${p.role}] ${p.name} (${p.ovr})</li>`).join('');
+    document.getElementById("p2-team").innerHTML = p2.team.map(p => `<li>[${p.role}] ${p.name} (${p.ovr})</li>`).join('');
+  }
+
+  function showSummary() {
+    document.getElementById("auction-area").style.display = "none";
+    document.getElementById("summary-area").style.display = "block";
+    let o1 = p1.team.reduce((s,p)=>s+p.ovr, 0), o2 = p2.team.reduce((s,p)=>s+p.ovr, 0);
+    document.getElementById("sum-ovr-1").innerText = o1;
+    document.getElementById("sum-ovr-2").innerText = o2;
+    document.getElementById("summary-fav").innerText = o1 > o2 ? "G1 Favorito" : (o2 > o1 ? "G2 Favorito" : "Equilibrio");
+  }
+
+  function showPitch() {
+    document.getElementById("summary-area").style.display = "none";
+    document.getElementById("match-area").style.display = "block";
+  }
+
+  let s1=0, s2=0, min=0;
+  function startMatchSimulation() {
+    document.getElementById("btn-sim").style.display = "none";
+    let o1 = p1.team.reduce((s,p)=>s+p.ovr, 0), o2 = p2.team.reduce((s,p)=>s+p.ovr, 0);
+    let log = document.getElementById("commentary");
+    
+    let timer = setInterval(() => {
+      min += 10;
+      document.getElementById("match-timer").innerText = min + "'";
+      
+      // Simulazione meritocratica basata su OVR
+      if (Math.random() < 0.5) {
+        if (Math.random() * o1 > Math.random() * o2) {
+          s1++; log.innerHTML += `<div>⚽ ${min}' GOL G1!</div>`;
+        } else {
+          s2++; log.innerHTML += `<div>⚽ ${min}' GOL G2!</div>`;
+        }
+        document.getElementById("score-p1").innerText = s1;
+        document.getElementById("score-p2").innerText = s2;
+      }
+      
+      if (min >= 90) {
+        clearInterval(timer);
+        document.getElementById("match-area").style.display = "none";
+        document.getElementById("result-area").style.display = "block";
+        document.getElementById("winner-text").innerText = s1 > s2 ? "🏆 VINCE G1!" : (s2 > s1 ? "🏆 VINCE G2!" : "🤝 PAREGGIO!");
+      }
+    }, 400);
+  }
+</script>
+</body>
+</html>
