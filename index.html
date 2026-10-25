@@ -2,392 +2,512 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Draft Calcetto 5v5 - Anni '70 ad Oggi</title>
-  <style>
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #121212; color: white; text-align: center; margin: 20px; }
-    .container { max-width: 900px; margin: auto; }
-    .mode-selection { background: #1e1e1e; padding: 25px; border-radius: 12px; border: 2px solid #333; margin-bottom: 20px; }
-    .room-inputs { display: flex; justify-content: center; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
-    input[type="text"] { padding: 10px; font-size: 16px; border-radius: 5px; border: 1px solid #444; background: #222; color: white; text-align: center; text-transform: uppercase; width: 150px; }
-    .dashboard { display: flex; justify-content: space-around; margin-bottom: 20px; gap: 15px; }
-    .player-box { background: #1e1e1e; padding: 15px; border-radius: 10px; width: 45%; border: 2px solid #333; }
-    .card { background: linear-gradient(135deg, #f1c40f, #e67e22); padding: 20px; border-radius: 15px; width: 250px; margin: 20px auto; color: #111; font-weight: bold; box-shadow: 0 4px 15px rgba(241, 196, 15, 0.4); }
-    .card h2 { margin: 5px 0; font-size: 24px; }
-    .btn { padding: 10px 15px; font-size: 14px; margin: 4px; cursor: pointer; border: none; border-radius: 5px; font-weight: bold; transition: 0.2s; }
-    .btn:hover { opacity: 0.9; transform: scale(1.02); }
-    .btn-p1 { background: #3498db; color: white; }
-    .btn-p2 { background: #e74c3c; color: white; }
-    .btn-pass { background: #2ecc71; color: white; width: 80%; font-size: 16px; margin-top: 15px; }
-    .btn-group { margin-bottom: 8px; }
-    ul { list-style: none; padding: 0; text-align: left; font-size: 14px; }
-    li { background: #2a2a2a; padding: 6px 10px; border-radius: 5px; margin-bottom: 5px; }
-    .pitch { background: #1b5e20; border: 3px solid #fff; border-radius: 10px; padding: 15px; margin: 20px auto; max-width: 600px; position: relative; }
-    .pitch-line { border-top: 2px dashed rgba(255,255,255,0.4); margin: 15px 0; }
-    .pitch-team-title { font-size: 14px; font-weight: bold; text-transform: uppercase; margin-bottom: 8px; }
-    .formation-row { display: flex; justify-content: space-around; margin: 10px 0; }
-    .field-player { background: rgba(0,0,0,0.6); border: 1px solid #fff; border-radius: 6px; padding: 4px 8px; font-size: 12px; min-width: 70px; }
-    .commentary-box { background: #1a1a1a; border: 1px solid #333; height: 180px; overflow-y: auto; text-align: left; padding: 10px; font-family: monospace; font-size: 13px; border-radius: 8px; margin-top: 15px; }
-    .scoreboard { font-size: 28px; font-weight: bold; background: #222; padding: 10px; border-radius: 8px; margin-bottom: 15px; }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Draft Calcetto 5v5 - Extreme Edition</title>
+  
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Teko:wght@600;700&family=Rajdhani:wght@600;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #08080a;
+      --panel-bg: rgba(15, 15, 20, 0.95);
+      --neon-green: #00ff66;
+      --neon-red: #ff0055;
+      --neon-gold: #ffb700;
+      --neon-blue: #00e5ff;
+      --text-main: #ffffff;
+      --text-muted: #9494a0;
+      --border-glow: rgba(0, 255, 102, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(0, 255, 102, 0.12), transparent 70%),
+        radial-gradient(circle at 50% 100%, rgba(255, 0, 85, 0.1), transparent 70%);
+      color: var(--text-main);
+      font-family: 'Rajdhani', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Teko', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin: 0;
+      line-height: 0.9;
+    }
+
+    .main-title {
+      font-size: 2.8rem;
+      text-shadow: 0 0 10px var(--neon-green), 0 0 25px rgba(0,255,102,0.3);
+      color: #fff;
+      text-align: center;
+      margin: 15px 0 2px 0;
+    }
+
+    .sub-title {
+      font-size: 1.1rem;
+      color: var(--neon-gold);
+      letter-spacing: 3px;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 480px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-bottom: 40px;
+    }
+
+    .panel {
+      background: var(--panel-bg);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+      position: relative;
+    }
+
+    .panel::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
+      border-radius: 12px 12px 0 0;
+    }
+
+    /* PULSANTI CATTIVI */
+    .btn {
+      width: 100%;
+      background: linear-gradient(135deg, #1a1a24, #121218);
+      border: 2px solid var(--neon-green);
+      color: var(--neon-green);
+      font-family: 'Teko', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+      box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-red {
+      border-color: var(--neon-red);
+      color: var(--neon-red);
+      box-shadow: 0 0 10px rgba(255, 0, 85, 0.2);
+    }
+
+    .btn-gold {
+      border-color: var(--neon-gold);
+      color: var(--neon-gold);
+      box-shadow: 0 0 10px rgba(255, 183, 0, 0.2);
+    }
+
+    .btn-small {
+      padding: 6px 12px;
+      font-size: 1.1rem;
+      width: auto;
+      display: inline-block;
+    }
+
+    /* CARD GIOCATORE */
+    .player-card {
+      background: linear-gradient(145deg, #161622, #0d0d12);
+      border: 2px solid var(--neon-blue);
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.15);
+    }
+
+    .player-card.bidone {
+      border-color: var(--neon-red);
+      box-shadow: 0 0 15px rgba(255, 0, 85, 0.2);
+    }
+
+    .player-card.legenda {
+      border-color: var(--neon-gold);
+      box-shadow: 0 0 20px rgba(255, 183, 0, 0.3);
+    }
+
+    .player-overall {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      font-family: 'Teko', sans-serif;
+      font-size: 1.8rem;
+      color: var(--neon-gold);
+      line-height: 1;
+    }
+
+    .player-name {
+      font-family: 'Teko', sans-serif;
+      font-size: 2rem;
+      margin: 5px 0 0 0;
+      color: #fff;
+    }
+
+    .player-role {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .player-desc {
+      font-size: 0.85rem;
+      color: var(--neon-red);
+      margin-top: 5px;
+      font-style: italic;
+    }
+
+    /* INPUT E FORM */
+    input {
+      width: 100%;
+      background: #0f0f14;
+      border: 1px solid #333;
+      padding: 12px;
+      color: #fff;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      text-align: center;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: var(--neon-green);
+      box-shadow: 0 0 8px rgba(0,255,102,0.3);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .flex-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #121218;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 1rem;
+      border-left: 3px solid var(--neon-green);
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
 <body>
 
-<div class="container">
-  <h1>⚽ Draft Calcetto 5v5 (Leggende & Oggi)</h1>
+  <div class="app-container">
+    <h1 class="main-title">DRAFT CALCETTO</h1>
+    <div class="sub-title">5v5 STREET BATTLE</div>
 
-  <div id="mode-selection" class="mode-selection">
-    <h2>Scegli Modalità di Gioco</h2>
-    <button class="btn btn-p1" style="font-size: 16px; padding: 12px 20px;" onclick="startLocalGame()">📱 In Locale (Stesso Telefono)</button>
-    
-    <div style="margin-top: 20px; border-top: 1px solid #444; padding-top: 15px;">
-      <h3>🌐 Modalità Online (2 Telefoni)</h3>
-      <div class="room-inputs">
-        <button class="btn btn-p2" onclick="createOnlineRoom()">Crea Stanza</button>
-        <span>oppure</span>
-        <input type="text" id="room-code-input" placeholder="Codice" maxlength="4">
-        <button class="btn btn-pass" style="width: auto; margin: 0;" onclick="joinOnlineRoom()">Entra</button>
+    <!-- MENU PRINCIPALE -->
+    <div id="menu-screen" class="panel">
+      <button class="btn" onclick="startLocalGame()">🎮 Partita Locale (Offline)</button>
+      <button class="btn btn-gold" onclick="showOnlineMenu()">🌐 Partita Online (Firebase)</button>
+    </div>
+
+    <!-- MENU ONLINE -->
+    <div id="online-menu-screen" class="panel hidden">
+      <h3 style="color:var(--neon-gold); font-size:1.5rem; margin-bottom:10px;">Modalità Online</h3>
+      <input type="text" id="room-code-input" placeholder="INSERISCI CODICE STANZA (es. AB12)" maxlength="4" style="text-transform:uppercase;">
+      <button class="btn" onclick="joinRoom()">Entra nella Stanza</button>
+      <button class="btn btn-gold" onclick="createRoom()">Crea Nuova Stanza</button>
+      <button class="btn btn-red" onclick="showMainScreen()">Indietro</button>
+    </div>
+
+    <!-- SCHERMATA DRAFT / GIOCO -->
+    <div id="game-screen" class="panel hidden">
+      <div class="status-bar">
+        <span id="turn-indicator">TURNO: GIOCATORE 1</span>
+        <button class="btn btn-red btn-small" onclick="confirmExit()">🏠 ESCI</button>
       </div>
-      <p id="room-status" style="color: #f1c40f; margin-top: 10px;"></p>
+
+      <div id="draft-container">
+        <!-- Qui apparirà il giocatore da scegliere -->
+      </div>
+    </div>
+
+    <!-- SCHERMATA RIEPILOGO OVERALL PRIMA DEL MATCH -->
+    <div id="summary-screen" class="panel hidden" style="text-align: center;">
+      <h2 style="font-size: 2.2rem; color: var(--neon-gold);">CONFRONTO SQUADRE</h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 15px;">Somma Overall dei 5 titolari in campo:</p>
+      
+      <div style="display: flex; justify-content: space-around; margin-bottom: 20px;">
+        <div style="background: rgba(0,229,255,0.05); border: 1px solid var(--neon-blue); padding: 10px; border-radius: 8px; width: 45%;">
+          <h3 style="color: var(--neon-blue); font-size: 1.4rem;" id="sum-name-1">Squadra 1</h3>
+          <div id="sum-score-1" style="font-family: 'Teko'; font-size: 2.8rem; color: #fff;">0</div>
+        </div>
+        <div style="background: rgba(255,0,85,0.05); border: 1px solid var(--neon-red); padding: 10px; border-radius: 8px; width: 45%;">
+          <h3 style="color: var(--neon-red); font-size: 1.4rem;" id="sum-name-2">Squadra 2</h3>
+          <div id="sum-score-2" style="font-family: 'Teko'; font-size: 2.8rem; color: #fff;">0</div>
+        </div>
+      </div>
+
+      <div id="favorite-text" style="font-family: 'Teko'; font-size: 1.5rem; color: var(--neon-gold); margin-bottom: 15px;"></div>
+      <button class="btn" onclick="runMatchSimulation()">Fischio d'Inizio: Simula Partita! ⚽</button>
+    </div>
+
+    <!-- SCHERMATA RISULTATO PARTITA -->
+    <div id="result-screen" class="panel hidden" style="text-align: center;">
+      <h2 style="font-size: 2.5rem; color: var(--neon-green);" id="match-winner-title">VITTORIA!</h2>
+      <div id="match-score-display" style="font-family: 'Teko'; font-size: 4rem; color: var(--neon-gold); margin: 10px 0;">3 - 2</div>
+      <p id="match-details-text" style="color: var(--text-muted); margin-bottom: 20px;"></p>
+      <button class="btn" onclick="showMainScreen()">Torna al Menu Principale</button>
     </div>
   </div>
 
-  <div id="game-container" style="display: none;">
-    <div class="dashboard">
-      <div class="player-box">
-        <h3 style="color: #3498db; margin-top: 0;">Giocatore 1</h3>
-        <p>Budget: <strong><span id="p1-budget">20.00</span> €</strong></p>
-        <p>Squadra: <span id="p1-count">0</span>/5</p>
-        <ul id="p1-team"></ul>
-      </div>
-      <div class="player-box">
-        <h3 style="color: #e74c3c; margin-top: 0;">Giocatore 2</h3>
-        <p>Budget: <strong><span id="p2-budget">20.00</span> €</strong></p>
-        <p>Squadra: <span id="p2-count">0</span>/5</p>
-        <ul id="p2-team"></ul>
-      </div>
-    </div>
+  <script>
+    // CONFIGURAZIONE FIREBASE (URL PERSONALE)
+    const firebaseConfig = {
+      databaseURL: "https://draftcalcettoonline-default-rtdb.firebaseio.com"
+    };
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    } else {
+      firebase.app();
+    }
+    const db = firebase.database();
 
-    <div id="auction-area">
-      <div class="card">
-        <div id="card-role" style="font-size: 18px; color: #333;">POR</div>
-        <h2 id="card-name">Buffon</h2>
-        <div style="font-size: 32px; margin-top: 5px;" id="card-ovr">OVR: 90</div>
-        <div style="font-size: 14px; margin-top: 5px; color: #333;">Valore Base: <span id="card-base-price">2.00</span> €</div>
-      </div>
+    // DATABASE GIGANTE POTENZIATO: Campioni, Leggende e i mitici Bidoni!
+    const masterDatabase = [
+      // TOP ATTUALI E LEGGENDE
+      { name: "CR7 (Prime)", role: "Attaccante", ovr: 96, type: "legenda", desc: "La macchina da gol perfetta." },
+      { name: "Messi (Prime)", role: "Attaccante", ovr: 97, type: "legenda", desc: "Il genio assoluto del pallone." },
+      { name: "Ronaldo Fenomeno", role: "Attaccante", ovr: 98, type: "legenda", desc: "Fenomenale e inarrestabile." },
+      { name: "Zidane", role: "Centrocampista", ovr: 95, type: "legenda", desc: "Classe pura e giocate di velluto." },
+      { name: "Ronaldinho", role: "Attaccante", ovr: 95, type: "legenda", desc: "Magia pura e sorriso in campo." },
+      { name: "Haaland", role: "Attaccante", ovr: 93, type: "normal", desc: "Un cyborg implacabile sotto porta." },
+      { name: "Mbappé", role: "Attaccante", ovr: 94, type: "normal", desc: "Velocità supersonica." },
+      { name: "De Bruyne", role: "Centrocampista", ovr: 92, type: "normal", desc: "Visione di gioco laser." },
+      { name: "Bellingham", role: "Centrocampista", ovr: 91, type: "normal", desc: "Incursore totale ovunque." },
+      { name: "Van Dijk", role: "Difensore", ovr: 90, type: "normal", desc: "Un muro invalicabile dietro." },
+      { name: "Courtois", role: "Portiere", ovr: 90, type: "normal", desc: "Sanguigno e saracinesca." },
+      { name: "Lautaro Martinez", role: "Attaccante", ovr: 89, type: "normal", desc: "Toro scatenato in area." },
+      { name: "Barella", role: "Centrocampista", ovr: 88, type: "normal", desc: "Polmoni infiniti e grinta." },
+      { name: "Theo Hernandez", role: "Difensore", ovr: 87, type: "normal", desc: "Freccia mancina devastante." },
+
+      // I MITICI BIDONI / METEORE (Rischiosissimi ma esilaranti)
+      { name: "Lord Bendtner", role: "Attaccante", ovr: 62, type: "bidone", desc: "Si credeva il migliore al mondo." },
+      { name: "Gabigol", role: "Attaccante", ovr: 65, type: "bidone", desc: "Più festeggiamenti che gol." },
+      { name: "Amauri", role: "Attaccante", ovr: 68, type: "bidone", desc: "Un autentico corpo estraneo." },
+      { name: "Taider", role: "Centrocampista", ovr: 60, type: "bidone", desc: "Correva tanto ma a vuoto." },
+      { name: "Jonathan (Il Fenomeno)", role: "Difensore", ovr: 64, type: "bidone", desc: "Soprannominato per ironia." },
+      { name: "Djibril Cissé", role: "Attaccante", ovr: 67, type: "bidone", desc: "Più tagli di capelli che reti." },
+      { name: "Bruno Peres", role: "Difensore", ovr: 63, type: "bidone", desc: "Celebre per il palo contro il Barca." }
+    ];
+
+    let gameState = {
+      mode: 'local', // 'local' o 'online'
+      roomCode: '',
+      playerTurn: 1, // 1 o 2
+      currentPool: [],
+      draftStep: 0,
+      team1: [],
+      team2: []
+    };
+
+    function showMainScreen() {
+      document.getElementById('menu-screen').classList.remove('hidden');
+      document.getElementById('online-menu-screen').classList.add('hidden');
+      document.getElementById('game-screen').classList.add('hidden');
+      document.getElementById('summary-screen').classList.add('hidden');
+      document.getElementById('result-screen').classList.add('hidden');
+    }
+
+    function showOnlineMenu() {
+      document.getElementById('menu-screen').classList.add('hidden');
+      document.getElementById('online-menu-screen').classList.remove('hidden');
+    }
+
+    function confirmExit() {
+      if (confirm("Vuoi davvero abbandonare la partita e tornare al menu?")) {
+        showMainScreen();
+      }
+    }
+
+    // AVVIO PARTITA LOCALE
+    function startLocalGame() {
+      gameState.mode = 'local';
+      gameState.team1 = [];
+      gameState.team2 = [];
+      gameState.draftStep = 0;
+      gameState.playerTurn = 1;
+
+      document.getElementById('menu-screen').classList.add('hidden');
+      document.getElementById('game-screen').classList.remove('hidden');
+
+      prepareNextDraftPick();
+    }
+
+    // GENERAZIONE CASUALE GIOCATORI PER L'ASTA
+    function prepareNextDraftPick() {
+      if (gameState.draftStep >= 10) {
+        // Finito il draft (5 a testa), mostra il riepilogo overall!
+        showSummaryScreen();
+        return;
+      }
+
+      // Mescola il database e prende 3 giocatori casuali tra cui scegliere
+      let shuffled = [...masterDatabase].sort(() => 0.5 - Math.random());
+      gameState.currentPool = shuffled.slice(0, 3);
+
+      renderDraftUI();
+    }
+
+    function renderDraftUI() {
+      const container = document.getElementById('draft-container');
+      const turnText = document.getElementById('turn-indicator');
       
-      <h3>Offerta Attuale: <span id="current-bid">0.00</span> € (Da: <span id="high-bidder">Nessuno</span>)</h3>
+      let currentTeamName = gameState.playerTurn === 1 ? "GIOCATORE 1" : "GIOCATORE 2";
+      turnText.innerText = `TURNO: ${currentTeamName} (Scelta ${Math.floor(gameState.draftStep/2) + 1}/5)`;
+
+      let html = `<h3 style="text-align:center; margin-bottom:10px; color:var(--neon-gold);">SELEZIONA UN GIOCATORE</h3>`;
       
-      <div class="btn-group">
-        <span style="color: #3498db; font-weight: bold;">G1:</span>
-        <button class="btn btn-p1" onclick="placeBid(1, 0.5)">+0.50 €</button>
-        <button class="btn btn-p1" onclick="placeBid(1, 1.0)">+1.00 €</button>
-      </div>
+      gameState.currentPool.forEach((p, index) => {
+        let cardClass = "player-card";
+        if (p.type === 'bidone') cardClass += " bidone";
+        if (p.type === 'legenda') cardClass += " legenda";
 
-      <div class="btn-group">
-        <span style="color: #e74c3c; font-weight: bold;">G2:</span>
-        <button class="btn btn-p2" onclick="placeBid(2, 0.5)">+0.50 €</button>
-        <button class="btn btn-p2" onclick="placeBid(2, 1.0)">+1.00 €</button>
-      </div>
+        html += `
+          <div class="${cardClass}" style="margin-bottom: 12px; cursor: pointer;" onclick="selectPlayer(${index})">
+            <div class="player-overall">${p.ovr}</div>
+            <div class="player-name">${p.name}</div>
+            <div class="player-role">${p.role}</div>
+            <div class="player-desc">${p.desc}</div>
+          </div>
+        `;
+      });
 
-      <div>
-        <button class="btn btn-pass" onclick="passAuction()">Aggiudica / Passa Carta</button>
-      </div>
-    </div>
-
-    <div id="match-area" style="display:none; margin-top:20px;">
-      <div class="scoreboard">
-        <span style="color: #3498db;">G1</span> <span id="score-p1">0</span> - <span id="score-p2">0</span> <span style="color: #e74c3c;">G2</span>
-        <div style="font-size: 14px; color: #aaa; margin-top: 5px;" id="match-timer">Minuto: 0'</div>
-      </div>
-
-      <div class="pitch">
-        <div class="pitch-team-title" style="color: #3498db;">Giocatore 1 (1-1-2-1)</div>
-        <div class="formation-row" id="p1-field-att"></div>
-        <div class="formation-row" id="p1-field-mid"></div>
-        <div class="formation-row" id="p1-field-def"></div>
-        <div class="formation-row" id="p1-field-gk"></div>
-
-        <div class="pitch-line"></div>
-
-        <div class="pitch-team-title" style="color: #e74c3c;">Giocatore 2 (1-1-2-1)</div>
-        <div class="formation-row" id="p2-field-gk"></div>
-        <div class="formation-row" id="p2-field-def"></div>
-        <div class="formation-row" id="p2-field-mid"></div>
-        <div class="formation-row" id="p2-field-att"></div>
-      </div>
-
-      <button class="btn btn-pass" id="btn-start-sim" style="font-size: 18px; width: 60%;" onclick="startMatchSimulation()">Simula Partita ⚽</button>
-
-      <div class="commentary-box" id="commentary-log">
-        <div>-- In attesa del fischio d'inizio --</div>
-      </div>
-    </div>
-
-    <div id="result-area" style="display:none; margin-top:20px;">
-      <h2 id="winner-text"></h2>
-      <button class="btn btn-p1" style="font-size: 18px; padding: 12px 25px;" onclick="location.reload()">Gioca Un'Altra Partita</button>
-    </div>
-  </div>
-</div>
-
-<script>
-  const firebaseConfig = {
-    databaseURL: "https://draftcalcettoonline-default-rtdb.firebaseio.com"
-  };
-  
-  let db = null, roomRef = null, isOnline = false, myPlayerNum = 1, currentRoomCode = "";
-
-  try {
-    firebase.initializeApp(firebaseConfig);
-    db = firebase.database();
-  } catch(e) {}
-
-  const rawPlayers = [
-    { name: "Zoff", role: "POR", ovr: 90, price: 2.50 },
-    { name: "Yashin", role: "POR", ovr: 91, price: 3.00 },
-    { name: "Schmeichel", role: "POR", ovr: 89, price: 2.00 },
-    { name: "Buffon", role: "POR", ovr: 92, price: 3.50 },
-    { name: "Casillas", role: "POR", ovr: 90, price: 2.50 },
-    { name: "Neuer", role: "POR", ovr: 91, price: 3.00 },
-    { name: "Courtois", role: "POR", ovr: 89, price: 2.00 },
-    { name: "Donnarumma", role: "POR", ovr: 88, price: 1.50 },
-    { name: "Maignan", role: "POR", ovr: 87, price: 1.50 },
-
-    { name: "Beckenbauer", role: "DIF", ovr: 93, price: 3.50 },
-    { name: "Baresi", role: "DIF", ovr: 92, price: 3.00 },
-    { name: "Maldini", role: "DIF", ovr: 94, price: 4.00 },
-    { name: "Scirea", role: "DIF", ovr: 90, price: 2.50 },
-    { name: "Nesta", role: "DIF", ovr: 91, price: 2.50 },
-    { name: "Cannavaro", role: "DIF", ovr: 90, price: 2.50 },
-    { name: "Ramos", role: "DIF", ovr: 89, price: 2.00 },
-    { name: "Van Dijk", role: "DIF", ovr: 89, price: 2.00 },
-    { name: "Theo Hernandez", role: "DIF", ovr: 86, price: 1.50 },
-    { name: "Bastoni", role: "DIF", ovr: 85, price: 1.00 },
-
-    { name: "Cruyff", role: "CEN", ovr: 94, price: 4.00 },
-    { name: "Platini", role: "CEN", ovr: 93, price: 3.50 },
-    { name: "Gullit", role: "CEN", ovr: 92, price: 3.00 },
-    { name: "Matthäus", role: "CEN", ovr: 91, price: 2.50 },
-    { name: "Zidane", role: "CEN", ovr: 94, price: 4.00 },
-    { name: "Pirlo", role: "CEN", ovr: 90, price: 2.50 },
-    { name: "Xavi", role: "CEN", ovr: 92, price: 3.00 },
-    { name: "Iniesta", role: "CEN", ovr: 93, price: 3.50 },
-    { name: "Kaká", role: "CEN", ovr: 91, price: 2.50 },
-    { name: "Ronaldinho", role: "CEN", ovr: 93, price: 3.50 },
-    { name: "De Bruyne", role: "CEN", ovr: 91, price: 2.50 },
-    { name: "Modric", role: "CEN", ovr: 90, price: 2.00 },
-    { name: "Bellingham", role: "CEN", ovr: 90, price: 2.00 },
-    { name: "Barella", role: "CEN", ovr: 87, price: 1.50 },
-
-    { name: "Pelé", role: "ATT", ovr: 95, price: 4.50 },
-    { name: "Maradona", role: "ATT", ovr: 95, price: 4.50 },
-    { name: "Van Basten", role: "ATT", ovr: 93, price: 3.50 },
-    { name: "Ronaldo Nazario", role: "ATT", ovr: 94, price: 4.00 },
-    { name: "Baggio", role: "ATT", ovr: 92, price: 3.00 },
-    { name: "Del Piero", role: "ATT", ovr: 90, price: 2.50 },
-    { name: "Totti", role: "ATT", ovr: 90, price: 2.50 },
-    { name: "Messi", role: "ATT", ovr: 95, price: 4.50 },
-    { name: "Cristiano Ronaldo", role: "ATT", ovr: 94, price: 4.00 },
-    { name: "Mbappé", role: "ATT", ovr: 91, price: 2.50 },
-    { name: "Haaland", role: "ATT", ovr: 90, price: 2.00 },
-    { name: "Lautaro", role: "ATT", ovr: 88, price: 1.50 }
-  ];
-
-  function shuffle(array) {
-    let currentIndex = array.length, randomIndex;
-    while (currentIndex !== 0) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-      [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+      container.innerHTML = html;
     }
-    return array;
-  }
 
-  let players = shuffle([...rawPlayers]);
-  let currentIndex = 0, currentBid = 0, highestBidder = null;
-  const p1 = { budget: 20.00, team: [], roles: { POR:0, DIF:0, CEN:0, ATT:0 } };
-  const p2 = { budget: 20.00, team: [], roles: { POR:0, DIF:0, CEN:0, ATT:0 } };
+    function selectPlayer(index) {
+      let chosenPlayer = gameState.currentPool[index];
 
-  function startLocalGame() {
-    isOnline = false;
-    document.getElementById("mode-selection").style.display = "none";
-    document.getElementById("game-container").style.display = "block";
-    loadCard();
-  }
-
-  function createOnlineRoom() {
-    if (!db) return alert("Server offline!");
-    isOnline = true; myPlayerNum = 1;
-    currentRoomCode = Math.random().toString(36).substring(2, 6).toUpperCase();
-    roomRef = db.ref("rooms/" + currentRoomCode);
-    roomRef.set({ players, currentIndex:0, currentBid:0, highestBidder:null, p1, p2, status:"waiting" });
-    document.getElementById("room-status").innerText = "Stanza: " + currentRoomCode + " (In attesa...)";
-    roomRef.on("value", snap => {
-      const d = snap.val(); if (!d) return;
-      syncOnlineData(d);
-      if (d.status === "ready" && document.getElementById("game-container").style.display === "none") {
-        document.getElementById("mode-selection").style.display = "none";
-        document.getElementById("game-container").style.display = "block";
+      if (gameState.playerTurn === 1) {
+        gameState.team1.push(chosenPlayer);
+        gameState.playerTurn = 2;
+      } else {
+        gameState.team2.push(chosenPlayer);
+        gameState.playerTurn = 1;
       }
-    });
-  }
 
-  function joinOnlineRoom() {
-    const code = document.getElementById("room-code-input").value.trim().toUpperCase();
-    if (code.length !== 4) return alert("Codice errato!");
-    isOnline = true; myPlayerNum = 2; currentRoomCode = code;
-    roomRef = db.ref("rooms/" + currentRoomCode);
-    roomRef.once("value", snap => {
-      if (!snap.exists()) return alert("Stanza non trovata!");
-      roomRef.update({ status: "ready" });
-      document.getElementById("mode-selection").style.display = "none";
-      document.getElementById("game-container").style.display = "block";
-      roomRef.on("value", s => { if (s.val()) syncOnlineData(s.val()); });
-    });
-  }
-
-  function syncOnlineData(d) {
-    players = d.players || players; currentIndex = d.currentIndex;
-    currentBid = d.currentBid; highestBidder = d.highestBidder;
-    Object.assign(p1, d.p1); Object.assign(p2, d.p2);
-    updateUI();
-    if (p1.team.length === 5 && p2.team.length === 5) showMatchArea();
-    else if (currentIndex < players.length) renderCurrentCard();
-  }
-
-  function renderCurrentCard() {
-    const c = players[currentIndex];
-    document.getElementById("card-role").innerText = c.role;
-    document.getElementById("card-name").innerText = c.name;
-    document.getElementById("card-ovr").innerText = "OVR: " + c.ovr;
-    document.getElementById("card-base-price").innerText = c.price.toFixed(2);
-    document.getElementById("current-bid").innerText = currentBid.toFixed(2);
-    document.getElementById("high-bidder").innerText = highestBidder ? "Giocatore " + highestBidder : "Nessuno";
-  }
-
-  function loadCard() {
-    if (p1.team.length === 5 && p2.team.length === 5) return showMatchArea();
-    if (currentIndex >= players.length) return showMatchArea();
-    const c = players[currentIndex];
-    if (!canBuy(p1, c.role) && !canBuy(p2, c.role)) {
-      currentIndex++; if (isOnline) pushOnlineState(); else loadCard(); return;
+      gameState.draftStep++;
+      prepareNextDraftPick();
     }
-    currentBid = 0; highestBidder = null;
-    if (isOnline) pushOnlineState(); else renderCurrentCard();
-  }
 
-  function canBuy(pObj, role) {
-    if (pObj.team.length >= 5) return false;
-    if (role === "CEN" && pObj.roles.CEN >= 2) return false;
-    if (role !== "CEN" && pObj.roles[role] >= 1) return false;
-    return true;
-  }
+    // SCHERMATA RIEPILOGO OVERALL
+    function showSummaryScreen() {
+      document.getElementById('game-screen').classList.add('hidden');
+      document.getElementById('summary-screen').classList.remove('hidden');
 
-  function placeBid(playerNum, raiseAmount) {
-    if (isOnline && playerNum !== myPlayerNum) return alert("Attendi il tuo turno!");
-    const pObj = playerNum === 1 ? p1 : p2;
-    const c = players[currentIndex];
-    if (!canBuy(pObj, c.role)) return alert("Ruolo già completo!");
+      let sum1 = gameState.team1.reduce((acc, p) => acc + p.ovr, 0);
+      let sum2 = gameState.team2.reduce((acc, p) => acc + p.ovr, 0);
 
-    let nextBid = (highestBidder === null) ? raiseAmount : currentBid + raiseAmount;
-    const needed = 4 - pObj.team.length;
-    if (nextBid > (pObj.budget - needed * 1.00)) return alert("Devi tenere almeno 1.00€ per ogni slot rimasto!");
+      document.getElementById('sum-score-1').innerText = sum1;
+      document.getElementById('sum-score-2').innerText = sum2;
 
-    currentBid = nextBid; highestBidder = playerNum;
-    if (isOnline) pushOnlineState(); else renderCurrentCard();
-  }
-
-  function passAuction() {
-    if (highestBidder !== null) {
-      const winner = highestBidder === 1 ? p1 : p2;
-      const c = players[currentIndex];
-      winner.budget -= currentBid; winner.team.push(c); winner.roles[c.role]++;
-      updateUI();
+      let favText = "";
+      if (sum1 > sum2) {
+        favText = "🔥 Giocatore 1 parte leggermente favorito!";
+      } else if (sum2 > sum1) {
+        favText = "🔥 Giocatore 2 parte leggermente favorito!";
+      } else {
+        favText = "⚖️ Squadre perfettamente bilanciate sulla carta!";
+      }
+      document.getElementById('favorite-text').innerText = favText;
     }
-    currentIndex++;
-    if (isOnline) { currentBid = 0; highestBidder = null; pushOnlineState(); } else loadCard();
-  }
 
-  function pushOnlineState() {
-    if (roomRef) roomRef.update({ currentIndex, currentBid, highestBidder, p1, p2 });
-  }
+    // SIMULAZIONE PARTITA E RISULTATO
+    function runMatchSimulation() {
+      let sum1 = gameState.team1.reduce((acc, p) => acc + p.ovr, 0);
+      let sum2 = gameState.team2.reduce((acc, p) => acc + p.ovr, 0);
 
-  function updateUI() {
-    document.getElementById("p1-budget").innerText = p1.budget.toFixed(2);
-    document.getElementById("p2-budget").innerText = p2.budget.toFixed(2);
-    document.getElementById("p1-count").innerText = p1.team.length;
-    document.getElementById("p2-count").innerText = p2.team.length;
-    document.getElementById("p1-team").innerHTML = p1.team.map(p => `<li><strong>[${p.role}]</strong> ${p.name} (${p.ovr})</li>`).join('');
-    document.getElementById("p2-team").innerHTML = p2.team.map(p => `<li><strong>[${p.role}]</strong> ${p.name} (${p.ovr})</li>`).join('');
-  }
+      // Calcolo gol influenzato dagli overall con un pizzico di casualità calcistica
+      let base1 = Math.floor(sum1 / 90);
+      let base2 = Math.floor(sum2 / 90);
 
-  function showMatchArea() {
-    document.getElementById("auction-area").style.display = "none";
-    document.getElementById("match-area").style.display = "block";
-    renderPitchFormations();
-  }
+      let goals1 = Math.max(0, base1 - 3 + Math.floor(Math.random() * 4));
+      let goals2 = Math.max(0, base2 - 3 + Math.floor(Math.random() * 4));
 
-  function renderPitchFormations() {
-    const r = (team, role) => team.filter(p => p.role === role).map(p => `<div class="field-player">${p.name} (${p.ovr})</div>`).join('');
-    document.getElementById("p1-field-gk").innerHTML = r(p1.team, "POR");
-    document.getElementById("p1-field-def").innerHTML = r(p1.team, "DIF");
-    document.getElementById("p1-field-mid").innerHTML = r(p1.team, "CEN");
-    document.getElementById("p1-field-att").innerHTML = r(p1.team, "ATT");
-    document.getElementById("p2-field-gk").innerHTML = r(p2.team, "POR");
-    document.getElementById("p2-field-def").innerHTML = r(p2.team, "DIF");
-    document.getElementById("p2-field-mid").innerHTML = r(p2.team, "CEN");
-    document.getElementById("p2-field-att").innerHTML = r(p2.team, "ATT");
-  }
-
-  let score1 = 0, score2 = 0, minute = 0, simInterval = null;
-
-  function startMatchSimulation() {
-    document.getElementById("btn-start-sim").style.display = "none";
-    const log = document.getElementById("commentary-log");
-    log.innerHTML = "<div>0' - L'arbitro fischia l'inizio!</div>";
-    const ovr1 = p1.team.reduce((s, p) => s + p.ovr, 0);
-    const ovr2 = p2.team.reduce((s, p) => s + p.ovr, 0);
-
-    simInterval = setInterval(() => {
-      minute += 5;
-      document.getElementById("match-timer").innerText = "Minuto: " + minute + "'";
-      if (Math.random() < 0.35) {
-        const attP1 = Math.random() * ovr1 > Math.random() * ovr2;
-        const attTeam = attP1 ? p1 : p2, defTeam = attP1 ? p2 : p1, attName = attP1 ? "G1" : "G2";
-        const striker = attTeam.team.find(p => p.role === "ATT") || attTeam.team[0];
-        const gk = defTeam.team.find(p => p.role === "POR") || defTeam.team[0];
-
-        if (Math.random() < 0.4) {
-          if (attP1) score1++; else score2++;
-          document.getElementById("score-p1").innerText = score1;
-          document.getElementById("score-p2").innerText = score2;
-          log.innerHTML += `<div style="color:#2ecc71;">⚽ ${minute}' - GOL di ${striker.name} (${attName})!</div>`;
-        } else {
-          log.innerHTML += `<div>🧤 ${minute}' - Parata di ${gk.name} su ${striker.name}!</div>`;
-        }
-        log.scrollTop = log.scrollHeight;
+      // Se c'è parità, aggiungiamo pathos
+      if (goals1 === goals2) {
+        if (Math.random() > 0.5) goals1++;
+        else goals2++;
       }
-      if (minute >= 90) {
-        clearInterval(simInterval);
-        log.innerHTML += `<div style="color:#f1c40f;">90' - Fine partita!</div>`;
-        setTimeout(endGame, 1500);
+
+      document.getElementById('summary-screen').classList.add('hidden');
+      document.getElementById('result-screen').classList.remove('hidden');
+
+      document.getElementById('match-score-display').innerText = `${goals1} - ${goals2}`;
+      
+      let winnerTitle = "";
+      if (goals1 > goals2) {
+        winnerTitle = "🏆 VITTORIA DEL GIOCATORE 1!";
+      } else {
+        winnerTitle = "🏆 VITTORIA DEL GIOCATORE 2!";
       }
-    }, 500);
-  }
+      document.getElementById('match-winner-title').innerText = winnerTitle;
+      document.getElementById('match-details-text').innerText = `Partita intensa decisa sul campo da calcetto 5v5!`;
+    }
 
-  function endGame() {
-    document.getElementById("match-area").style.display = "none";
-    document.getElementById("result-area").style.display = "block";
-    let res = `<h3>Risultato Finale: G1 ${score1} - ${score2} G2</h3>`;
-    if (score1 > score2) res += "<h1 style='color:#3498db;'>🏆 GIOCATORE 1 VINCE!</h1>";
-    else if (score2 > score1) res += "<h1 style='color:#e74c3c;'>🏆 GIOCATORE 2 VINCE!</h1>";
-    else res += "<h1>🤝 PAREGGIO!</h1>";
-    document.getElementById("winner-text").innerHTML = res;
-  }
-</script>
+    // GESTIONE ONLINE (BASE FIREBASE)
+    function createRoom() {
+      let code = Math.random().toString(36).substring(2, 6).toUpperCase();
+      gameState.roomCode = code;
+      alert("Stanza creata con codice: " + code + ". Condividilo con l'amico!");
+      startLocalGame(); // Per ora simula in locale in attesa della sincronizzazione completa
+    }
 
+    function joinRoom() {
+      let code = document.getElementById('room-code-input').value.toUpperCase();
+      if (code.length < 4) {
+        alert("Inserisci un codice valido a 4 lettere!");
+        return;
+      }
+      gameState.roomCode = code;
+      alert("Connessione alla stanza " + code + "...");
+      startLocalGame();
+    }
+  </script>
 </body>
 </html>
