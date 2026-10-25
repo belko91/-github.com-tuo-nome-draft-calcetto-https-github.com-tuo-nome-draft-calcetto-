@@ -171,9 +171,8 @@
     db = firebase.database();
   } catch(e) {}
 
-  // DATABASE MASSICCIO: Oltre 200 giocatori tra Leggende, Campioni e Bidoni
+  // DATABASE MASSICCIO: Oltre 200 giocatori
   const rawPlayers = [
-    // --- PORTIERI (20) ---
     { name: "Yashin", role: "POR", ovr: 91, price: 3.00, type: "legenda", desc: "Il ragno nero." },
     { name: "Buffon", role: "POR", ovr: 92, price: 3.50, type: "legenda", desc: "Leggenda infinita." },
     { name: "Zoff", role: "POR", ovr: 90, price: 2.50, type: "legenda", desc: "Muro storico azzurro." },
@@ -191,146 +190,144 @@
     { name: "Ederson", role: "POR", ovr: 86, price: 1.50, type: "normal", desc: "Lanci da trequartista." },
     { name: "Pagliuca", role: "POR", ovr: 85, price: 1.30, type: "normal", desc: "Gatto di 90 minuti." },
     { name: "Toldo", role: "POR", ovr: 85, price: 1.30, type: "normal", desc: "Eroe di Euro 2000." },
-    { name: "Taibi", role: "POR", ovr: 62, price: 1.00, type: "bidone", desc: "La papera col pallone che passa sotto le gambe." },
-    { name: "Rui Patricio", role: "POR", ovr: 81, price: 1.00, type: "normal", desc: "Affidabile ma senza acuti." },
+    { name: "Taibi", role: "POR", ovr: 62, price: 1.00, type: "bidone", desc: "La papera passata sotto le gambe." },
+    { name: "Rui Patricio", role: "POR", ovr: 81, price: 1.00, type: "normal", desc: "Affidabile." },
     { name: "Karius", role: "POR", ovr: 60, price: 1.00, type: "bidone", desc: "Incubi di Kiev." },
 
-    // --- DIFENSORI (60) ---
-    { name: "Maldini", role: "DIF", ovr: 94, price: 4.00, type: "legenda", desc: "Eleganza e marcatura pura." },
-    { name: "Beckenbauer", role: "DIF", ovr: 93, price: 3.50, type: "legenda", desc: "Il Kaiser della difesa." },
+    { name: "Maldini", role: "DIF", ovr: 94, price: 4.00, type: "legenda", desc: "Eleganza pura." },
+    { name: "Beckenbauer", role: "DIF", ovr: 93, price: 3.50, type: "legenda", desc: "Il Kaiser." },
     { name: "Baresi", role: "DIF", ovr: 92, price: 3.00, type: "legenda", desc: "Anticipo e classe." },
     { name: "Cannavaro", role: "DIF", ovr: 90, price: 2.50, type: "legenda", desc: "Pallone d'Oro difensivo." },
-    { name: "Nesta", role: "DIF", ovr: 91, price: 2.80, type: "legenda", desc: "Chiusura pulita e regale." },
-    { name: "Cafu", role: "DIF", ovr: 91, price: 2.80, type: "legenda", desc: "Pendolino sulla fascia." },
+    { name: "Nesta", role: "DIF", ovr: 91, price: 2.80, type: "legenda", desc: "Chiusura regale." },
+    { name: "Cafu", role: "DIF", ovr: 91, price: 2.80, type: "legenda", desc: "Pendolino." },
     { name: "Roberto Carlos", role: "DIF", ovr: 92, price: 3.00, type: "legenda", desc: "Mancino atomico." },
-    { name: "Puyol", role: "DIF", ovr: 89, price: 2.20, type: "legenda", desc: "Cuore e grinta blaugrana." },
-    { name: "Sergio Ramos", role: "DIF", ovr: 89, price: 2.00, type: "normal", desc: "Leader e goleador falloso." },
+    { name: "Puyol", role: "DIF", ovr: 89, price: 2.20, type: "legenda", desc: "Cuore blaugrana." },
+    { name: "Sergio Ramos", role: "DIF", ovr: 89, price: 2.00, type: "normal", desc: "Leader goleador." },
     { name: "Van Dijk", role: "DIF", ovr: 89, price: 2.00, type: "normal", desc: "Colosso insuperabile." },
-    { name: "Thiago Silva", role: "DIF", ovr: 88, price: 1.80, type: "normal", desc: "Professore difensivo." },
-    { name: "Chiellini", role: "DIF", ovr: 88, price: 1.80, type: "normal", desc: "Ruvido e insuperabile in marcatura." },
+    { name: "Thiago Silva", role: "DIF", ovr: 88, price: 1.80, type: "normal", desc: "Professore." },
+    { name: "Chiellini", role: "DIF", ovr: 88, price: 1.80, type: "normal", desc: "Ruvido e insuperabile." },
     { name: "Bonucci", role: "DIF", ovr: 87, price: 1.50, type: "normal", desc: "Lancio geometrico." },
-    { name: "Pepe", role: "DIF", ovr: 86, price: 1.50, type: "normal", desc: "Corre con le forbici in mano." },
-    { name: "Marcelo", role: "DIF", ovr: 88, price: 2.00, type: "normal", desc: "Un trequartista prestato a terzino." },
-    { name: "Dani Alves", role: "DIF", ovr: 89, price: 2.20, type: "normal", desc: "Tecnicità e visione totale." },
-    { name: "Zanetti", role: "DIF", ovr: 90, price: 2.50, type: "legenda", desc: "Il trattore instancabile." },
+    { name: "Pepe", role: "DIF", ovr: 86, price: 1.50, type: "normal", desc: "Arcigno." },
+    { name: "Marcelo", role: "DIF", ovr: 88, price: 2.00, type: "normal", desc: "Genio sulla fascia." },
+    { name: "Dani Alves", role: "DIF", ovr: 89, price: 2.20, type: "normal", desc: "Visione totale." },
+    { name: "Zanetti", role: "DIF", ovr: 90, price: 2.50, type: "legenda", desc: "Il trattore." },
     { name: "Brehme", role: "DIF", ovr: 88, price: 2.00, type: "legenda", desc: "Ambidestro letale." },
-    { name: "Thuram", role: "DIF", ovr: 90, price: 2.50, type: "legenda", desc: "Potenza e intelligenza." },
-    { name: "Koeman", role: "DIF", ovr: 89, price: 2.20, type: "legenda", desc: "Cannone atomico su punizione." },
-    { name: "Passarella", role: "DIF", ovr: 88, price: 2.00, type: "legenda", desc: "El Gran Capitan goleador." },
-    { name: "Costacurta", role: "DIF", ovr: 86, price: 1.50, type: "normal", desc: "Sempre prezioso e puntuale." },
-    { name: "Desailly", role: "DIF", ovr: 88, price: 2.00, type: "legenda", desc: "La roccia francese." },
-    { name: "Rúben Dias", role: "DIF", ovr: 88, price: 1.80, type: "normal", desc: "Comanda il reparto con polso." },
-    { name: "Saliba", role: "DIF", ovr: 87, price: 1.50, type: "normal", desc: "Eleganza moderna." },
-    { name: "Militao", role: "DIF", ovr: 86, price: 1.50, type: "normal", desc: "Atletismo puro." },
-    { name: "Alaba", role: "DIF", ovr: 85, price: 1.30, type: "normal", desc: "Jolly difensivo." },
-    { name: "Varane", role: "DIF", ovr: 86, price: 1.50, type: "normal", desc: "Pulito ed esperto." },
+    { name: "Thuram", role: "DIF", ovr: 90, price: 2.50, type: "legenda", desc: "Potenza." },
+    { name: "Koeman", role: "DIF", ovr: 89, price: 2.20, type: "legenda", desc: "Cannone su punizione." },
+    { name: "Passarella", role: "DIF", ovr: 88, price: 2.00, type: "legenda", desc: "Capitan goleador." },
+    { name: "Costacurta", role: "DIF", ovr: 86, price: 1.50, type: "normal", desc: "Puntuale." },
+    { name: "Desailly", role: "DIF", ovr: 88, price: 2.00, type: "legenda", desc: "Roccia." },
+    { name: "Rúben Dias", role: "DIF", ovr: 88, price: 1.80, type: "normal", desc: "Comanda il reparto." },
+    { name: "Saliba", role: "DIF", ovr: 87, price: 1.50, type: "normal", desc: "Eleganza." },
+    { name: "Militao", role: "DIF", ovr: 86, price: 1.50, type: "normal", desc: "Atletismo." },
+    { name: "Alaba", role: "DIF", ovr: 85, price: 1.30, type: "normal", desc: "Jolly." },
+    { name: "Varane", role: "DIF", ovr: 86, price: 1.50, type: "normal", desc: "Esperto." },
     { name: "Bastoni", role: "DIF", ovr: 85, price: 1.30, type: "normal", desc: "Mancino di qualità." },
-    { name: "Theo Hernandez", role: "DIF", ovr: 86, price: 1.50, type: "normal", desc: "Freccia imprendibile sulla fascia." },
-    { name: "Hakimi", role: "DIF", ovr: 86, price: 1.50, type: "normal", desc: "Brucia l'erba a destra." },
-    { name: "Cancelo", role: "DIF", ovr: 87, price: 1.60, type: "normal", desc: "Imprevedibile e geniale." },
-    { name: "Alexander-Arnold", role: "DIF", ovr: 86, price: 1.50, type: "normal", desc: "Piedi da trequartista arretrato." },
-    { name: "Robertson", role: "DIF", ovr: 85, price: 1.30, type: "normal", desc: "Fatica e polmoni scozzesi." },
-    { name: "Evra", role: "DIF", ovr: 85, price: 1.30, type: "normal", desc: "Garanzia sulla fascia." },
-    { name: "Abidal", role: "DIF", ovr: 84, price: 1.20, type: "normal", desc: "Roccia difensiva." },
-    { name: "Gallas", role: "DIF", ovr: 83, price: 1.10, type: "normal", desc: "Solido e arcigno." },
-    { name: "Kompany", role: "DIF", ovr: 87, price: 1.60, type: "normal", desc: "Leader carismatico." },
-    { name: "Godin", role: "DIF", ovr: 86, price: 1.50, type: "normal", desc: "El Faraón di testa non sbaglia." },
-    { name: "Carvajal", role: "DIF", ovr: 85, price: 1.30, type: "normal", desc: "Mastino di esperienza." },
-    { name: "Jordi Alba", role: "DIF", ovr: 85, price: 1.30, type: "normal", desc: "Diagonali fulminee." },
-    { name: "Zambrotta", role: "DIF", ovr: 89, price: 2.20, type: "legenda", desc: "Campione universale." },
-    { name: "Panucci", role: "DIF", ovr: 84, price: 1.20, type: "normal", desc: "Affidabilità difensiva." },
-    { name: "Grosso", role: "DIF", ovr: 85, price: 1.30, type: "normal", desc: "Il gol a Berlino nel destino." },
-    { name: "Materazzi", role: "DIF", ovr: 86, price: 1.50, type: "normal", desc: "Matrix non fa prigionieri." },
+    { name: "Theo Hernandez", role: "DIF", ovr: 86, price: 1.50, type: "normal", desc: "Freccia." },
+    { name: "Hakimi", role: "DIF", ovr: 86, price: 1.50, type: "normal", desc: "Brucia la fascia." },
+    { name: "Cancelo", role: "DIF", ovr: 87, price: 1.60, type: "normal", desc: "Geniale." },
+    { name: "Alexander-Arnold", role: "DIF", ovr: 86, price: 1.50, type: "normal", desc: "Piedi fatati." },
+    { name: "Robertson", role: "DIF", ovr: 85, price: 1.30, type: "normal", desc: "Polmoni." },
+    { name: "Evra", role: "DIF", ovr: 85, price: 1.30, type: "normal", desc: "Garanzia." },
+    { name: "Abidal", role: "DIF", ovr: 84, price: 1.20, type: "normal", desc: "Roccia." },
+    { name: "Gallas", role: "DIF", ovr: 83, price: 1.10, type: "normal", desc: "Solido." },
+    { name: "Kompany", role: "DIF", ovr: 87, price: 1.60, type: "normal", desc: "Leader." },
+    { name: "Godin", role: "DIF", ovr: 86, price: 1.50, type: "normal", desc: "Di testa non sbaglia." },
+    { name: "Carvajal", role: "DIF", ovr: 85, price: 1.30, type: "normal", desc: "Mastino." },
+    { name: "Jordi Alba", role: "DIF", ovr: 85, price: 1.30, type: "normal", desc: "Fulmineo." },
+    { name: "Zambrotta", role: "DIF", ovr: 89, price: 2.20, type: "legenda", desc: "Universale." },
+    { name: "Panucci", role: "DIF", ovr: 84, price: 1.20, type: "normal", desc: "Affidabile." },
+    { name: "Grosso", role: "DIF", ovr: 85, price: 1.30, type: "normal", desc: "Eroe a Berlino." },
+    { name: "Materazzi", role: "DIF", ovr: 86, price: 1.50, type: "normal", desc: "Matrix." },
     { name: "Cordoba", role: "DIF", ovr: 85, price: 1.30, type: "normal", desc: "Velocità fulminea." },
-    { name: "Chivu", role: "DIF", ovr: 84, price: 1.20, type: "normal", desc: "Eleganza difensiva." },
-    { name: "Stam", role: "DIF", ovr: 89, price: 2.00, type: "legenda", desc: "Un carro armato olandese." },
-    { name: "Lucio", role: "DIF", ovr: 88, price: 1.80, type: "legenda", desc: "Difensore palla al piede." },
-    { name: "Samuel", role: "DIF", ovr: 88, price: 1.80, type: "legenda", desc: "The Wall impenetrabile." },
+    { name: "Chivu", role: "DIF", ovr: 84, price: 1.20, type: "normal", desc: "Eleganza." },
+    { name: "Stam", role: "DIF", ovr: 89, price: 2.00, type: "legenda", desc: "Carro armato." },
+    { name: "Lucio", role: "DIF", ovr: 88, price: 1.80, type: "legenda", desc: "Incursore palla al piede." },
+    { name: "Samuel", role: "DIF", ovr: 88, price: 1.80, type: "legenda", desc: "The Wall." },
     { name: "Jonathan (Fenomeno)", role: "DIF", ovr: 64, price: 1.00, type: "bidone", desc: "Il vero fenomeno... ironico." },
-    { name: "Bruno Peres", role: "DIF", ovr: 63, price: 1.00, type: "bidone", desc: "Palo clamoroso e corsa a vuoto." },
-    { name: "Douglas Pereira", role: "DIF", ovr: 58, price: 1.00, type: "bidone", desc: "Scudetti visti dalla panchina." },
-    { name: "Grbić", role: "DIF", ovr: 61, price: 1.00, type: "bidone", desc: "Disastri seriali in retroguardia." },
-    { name: "Schelotto", role: "DIF", ovr: 62, price: 1.00, type: "bidone", desc: "Un gol nel derby e poi il nulla." },
+    { name: "Bruno Peres", role: "DIF", ovr: 63, price: 1.00, type: "bidone", desc: "Palo clamoroso." },
+    { name: "Douglas Pereira", role: "DIF", ovr: 58, price: 1.00, type: "bidone", desc: "Scudetti in panchina." },
+    { name: "Grbić", role: "DIF", ovr: 61, price: 1.00, type: "bidone", desc: "Disastri seriali." },
+    { name: "Schelotto", role: "DIF", ovr: 62, price: 1.00, type: "bidone", desc: "Gol nel derby e nulla più." },
     { name: "Dalbert", role: "DIF", ovr: 60, price: 1.00, type: "bidone", desc: "Spinta fantasma." },
-    { name: "Constant", role: "DIF", ovr: 62, price: 1.00, type: "bidone", desc: "Famoso per le risse." },
-    { name: "Mesbah", role: "DIF", ovr: 61, price: 1.00, type: "bidone", desc: "Esterno che non incideva." },
-    { name: "Piveteau", role: "DIF", ovr: 59, price: 1.00, type: "bidone", desc: "Comparsa dimenticata." },
+    { name: "Constant", role: "DIF", ovr: 62, price: 1.00, type: "bidone", desc: "Risse e poco altro." },
+    { name: "Mesbah", role: "DIF", ovr: 61, price: 1.00, type: "bidone", desc: "Fuori asse." },
+    { name: "Piveteau", role: "DIF", ovr: 59, price: 1.00, type: "bidone", desc: "Comparsa." },
     { name: "Coloccini", role: "DIF", ovr: 80, price: 1.00, type: "normal", desc: "Chioma fluente." },
 
-    // --- CENTROCAMPISTI (80) ---
-    { name: "Zidane", role: "CEN", ovr: 94, price: 4.00, type: "legenda", desc: "Maestro di classe pura." },
-    { name: "Cruyff", role: "CEN", ovr: 94, price: 4.00, type: "legenda", desc: "Il genio totale del calcio." },
-    { name: "Maradona (Trequartista)", role: "CEN", ovr: 95, price: 4.50, type: "legenda", desc: "Magia pura in mezzo." },
-    { name: "Ronaldinho", role: "CEN", ovr: 93, price: 3.50, type: "legenda", desc: "Sorriso e giocate divine." },
-    { name: "Iniesta", role: "CEN", ovr: 93, price: 3.50, type: "legenda", desc: "Illusionista del centrocampo." },
-    { name: "Xavi", role: "CEN", ovr: 92, price: 3.00, type: "legenda", desc: "Metronomo perfetto." },
+    { name: "Zidane", role: "CEN", ovr: 94, price: 4.00, type: "legenda", desc: "Classe pura." },
+    { name: "Cruyff", role: "CEN", ovr: 94, price: 4.00, type: "legenda", desc: "Genio totale." },
+    { name: "Maradona (Trequartista)", role: "CEN", ovr: 95, price: 4.50, type: "legenda", desc: "Magia pura." },
+    { name: "Ronaldinho", role: "CEN", ovr: 93, price: 3.50, type: "legenda", desc: "Sorriso divino." },
+    { name: "Iniesta", role: "CEN", ovr: 93, price: 3.50, type: "legenda", desc: "Illusionista." },
+    { name: "Xavi", role: "CEN", ovr: 92, price: 3.00, type: "legenda", desc: "Metronomo." },
     { name: "Pirlo", role: "CEN", ovr: 90, price: 2.50, type: "legenda", desc: "Geometrie celesti." },
-    { name: "Modric", role: "CEN", ovr: 91, price: 2.80, type: "normal", desc: "Maestro di palleggio." },
-    { name: "De Bruyne", role: "CEN", ovr: 91, price: 2.50, type: "normal", desc: "Visione laser millimetrica." },
-    { name: "Kroos", role: "CEN", ovr: 90, price: 2.50, type: "normal", desc: "Precisione chirurgica." },
-    { name: "Matthäus", role: "CEN", ovr: 91, price: 2.80, type: "legenda", desc: "Potenza e dinamismo." },
-    { name: "Platini", role: "CEN", ovr: 93, price: 3.50, type: "legenda", desc: "Le Roi illuminante." },
+    { name: "Modric", role: "CEN", ovr: 91, price: 2.80, type: "normal", desc: "Inossidabile." },
+    { name: "De Bruyne", role: "CEN", ovr: 91, price: 2.50, type: "normal", desc: "Visione laser." },
+    { name: "Kroos", role: "CEN", ovr: 90, price: 2.50, type: "normal", desc: "Chirurgico." },
+    { name: "Matthäus", role: "CEN", ovr: 91, price: 2.80, type: "legenda", desc: "Potenza totale." },
+    { name: "Platini", role: "CEN", ovr: 93, price: 3.50, type: "legenda", desc: "Le Roi." },
     { name: "Zico", role: "CEN", ovr: 92, price: 3.00, type: "legenda", desc: "Il bianco brasiliano." },
     { name: "Kaká", role: "CEN", ovr: 91, price: 2.80, type: "legenda", desc: "Accelerazioni devastanti." },
-    { name: "Seedorf", role: "CEN", ovr: 90, price: 2.50, type: "legenda", desc: "Potenza e tiri da fuori." },
-    { name: "Gattuso", role: "CEN", ovr: 87, price: 1.50, type: "normal", desc: "Ringhio mastino." },
-    { name: "Davids", role: "CEN", ovr: 89, price: 2.00, type: "legenda", desc: "Il pitbull con gli occhiali." },
+    { name: "Seedorf", role: "CEN", ovr: 90, price: 2.50, type: "legenda", desc: "Tiri da fuori." },
+    { name: "Gattuso", role: "CEN", ovr: 87, price: 1.50, type: "normal", desc: "Ringhio." },
+    { name: "Davids", role: "CEN", ovr: 89, price: 2.00, type: "legenda", desc: "Il pitbull." },
     { name: "Vieira", role: "CEN", ovr: 90, price: 2.50, type: "legenda", desc: "Diga insormontabile." },
-    { name: "Makelele", role: "CEN", ovr: 88, price: 1.80, type: "legenda", desc: "Ha inventato il ruolo." },
-    { name: "Busquets", role: "CEN", ovr: 89, price: 2.00, type: "normal", desc: "Tempismo ed eleganza." },
-    { name: "Rodri", role: "CEN", ovr: 91, price: 2.80, type: "normal", desc: "Il cervello d'Europa." },
-    { name: "Bellingham", role: "CEN", ovr: 90, price: 2.00, type: "normal", desc: "Incursore totale." },
-    { name: "Valverde", role: "CEN", ovr: 88, price: 1.80, type: "normal", desc: "Polmoni e tiro da fuori." },
+    { name: "Makelele", role: "CEN", ovr: 88, price: 1.80, type: "legenda", desc: "Insuperabile." },
+    { name: "Busquets", role: "CEN", ovr: 89, price: 2.00, type: "normal", desc: "Tempismo." },
+    { name: "Rodri", role: "CEN", ovr: 91, price: 2.80, type: "normal", desc: "Cervello d'Europa." },
+    { name: "Bellingham", role: "CEN", ovr: 90, price: 2.00, type: "normal", desc: "Incursore." },
+    { name: "Valverde", role: "CEN", ovr: 88, price: 1.80, type: "normal", desc: "Polmoni di ferro." },
     { name: "Barella", role: "CEN", ovr: 87, price: 1.50, type: "normal", desc: "Grinta e inserimenti." },
-    { name: "Çalhanoğlu", role: "CEN", ovr: 87, price: 1.50, type: "normal", desc: "Cecchino da fermo." },
-    { name: "Tonali", role: "CEN", ovr: 85, price: 1.30, type: "normal", desc: "Cuore e sostanza." },
+    { name: "Çalhanoğlu", role: "CEN", ovr: 87, price: 1.50, type: "normal", desc: "Cecchino." },
+    { name: "Tonali", role: "CEN", ovr: 85, price: 1.30, type: "normal", desc: "Cuore." },
     { name: "Kanté", role: "CEN", ovr: 89, price: 2.00, type: "normal", desc: "Corre per tre." },
-    { name: "Pogba (Prime)", role: "CEN", ovr: 90, price: 2.50, type: "normal", desc: "Puro talento." },
-    { name: "Bruno Fernandes", role: "CEN", ovr: 88, price: 1.80, type: "normal", desc: "Ultimo passaggio." },
+    { name: "Pogba (Prime)", role: "CEN", ovr: 90, price: 2.50, type: "normal", desc: "Talento puro." },
+    { name: "Bruno Fernandes", role: "CEN", ovr: 88, price: 1.80, type: "normal", desc: "Rifinitore." },
     { name: "Ødegaard", role: "CEN", ovr: 88, price: 1.80, type: "normal", desc: "Mente fine." },
-    { name: "Pedri", role: "CEN", ovr: 87, price: 1.50, type: "normal", desc: "Velluto tra le linee." },
-    { name: "Gavi", role: "CEN", ovr: 85, price: 1.30, type: "normal", desc: "Foga agonistica." },
+    { name: "Pedri", role: "CEN", ovr: 87, price: 1.50, type: "normal", desc: "Velluto." },
+    { name: "Gavi", role: "CEN", ovr: 85, price: 1.30, type: "normal", desc: "Foga." },
     { name: "Lampard", role: "CEN", ovr: 89, price: 2.00, type: "legenda", desc: "Gol a grappoli." },
     { name: "Gerrard", role: "CEN", ovr: 90, price: 2.50, type: "legenda", desc: "Cuore di Liverpool." },
     { name: "Scholes", role: "CEN", ovr: 89, price: 2.00, type: "legenda", desc: "Lanci millimetrici." },
     { name: "Beckham", role: "CEN", ovr: 89, price: 2.00, type: "legenda", desc: "Cross telecomandati." },
-    { name: "Rui Costa", role: "CEN", ovr: 89, price: 2.00, type: "legenda", desc: "Rifinitore sublime." },
+    { name: "Rui Costa", role: "CEN", ovr: 89, price: 2.00, type: "legenda", desc: "Rifinitore." },
     { name: "Nedved", role: "CEN", ovr: 90, price: 2.50, type: "legenda", desc: "Furia ceca." },
     { name: "Ballack", role: "CEN", ovr: 88, price: 1.80, type: "legenda", desc: "Capitano di ferro." },
-    { name: "Sneijder", role: "CEN", ovr: 89, price: 2.00, type: "normal", desc: "Triplete e magie." },
-    { name: "Eriksen", role: "CEN", ovr: 86, price: 1.50, type: "normal", desc: "Visione e classe." },
-    { name: "Mkhitaryan", role: "CEN", ovr: 85, price: 1.30, type: "normal", desc: "Intelligenza tattica." },
-    { name: "Rabiot", role: "CEN", ovr: 85, price: 1.30, type: "normal", desc: "Eleganza compassata." },
-    { name: "Locatelli", role: "CEN", ovr: 83, price: 1.10, type: "normal", desc: "Smistatore." },
-    { name: "Frattesi", role: "CEN", ovr: 84, price: 1.20, type: "normal", desc: "Incursore implacabile." },
+    { name: "Sneijder", role: "CEN", ovr: 89, price: 2.00, type: "normal", desc: "Triplete." },
+    { name: "Eriksen", role: "CEN", ovr: 86, price: 1.50, type: "normal", desc: "Visione." },
+    { name: "Mkhitaryan", role: "CEN", ovr: 85, price: 1.30, type: "normal", desc: "Intelligente." },
+    { name: "Rabiot", role: "CEN", ovr: 85, price: 1.30, type: "normal", desc: "Eleganza." },
+    { name: "Locatelli", role: "CEN", ovr: 83, price: 1.10, type: "normal", desc: "Ordine." },
+    { name: "Frattesi", role: "CEN", ovr: 84, price: 1.20, type: "normal", desc: "Incursore." },
     { name: "Pellegrini", role: "CEN", ovr: 84, price: 1.20, type: "normal", desc: "Qualità." },
     { name: "Zaniolo", role: "CEN", ovr: 82, price: 1.10, type: "normal", desc: "Forza fisica." },
-    { name: "Kessie", role: "CEN", ovr: 85, price: 1.30, type: "normal", desc: "Presidente della mediana." },
-    { name: "Marchisio", role: "CEN", ovr: 87, price: 1.50, type: "normal", desc: "Principino duttile." },
-    { name: "Di Livio", role: "CEN", ovr: 84, price: 1.20, type: "normal", desc: "Soldatino infaticabile." },
+    { name: "Kessie", role: "CEN", ovr: 85, price: 1.30, type: "normal", desc: "Presidente." },
+    { name: "Marchisio", role: "CEN", ovr: 87, price: 1.50, type: "normal", desc: "Principino." },
+    { name: "Di Livio", role: "CEN", ovr: 84, price: 1.20, type: "normal", desc: "Soldatino." },
     { name: "Albertini", role: "CEN", ovr: 87, price: 1.50, type: "normal", desc: "Metronomo." },
-    { name: "Di Biagio", role: "CEN", ovr: 83, price: 1.10, type: "normal", desc: "Sostanza pura." },
+    { name: "Di Biagio", role: "CEN", ovr: 83, price: 1.10, type: "normal", desc: "Sostanza." },
     { name: "Ambrosini", role: "CEN", ovr: 85, price: 1.30, type: "normal", desc: "Colpi di testa." },
     { name: "Casemiro", role: "CEN", ovr: 88, price: 1.80, type: "normal", desc: "Guardiano." },
-    { name: "Fabinho", role: "CEN", ovr: 86, price: 1.50, type: "normal", desc: "Schermo basso." },
-    { name: "Guardiola", role: "CEN", ovr: 87, price: 1.50, type: "legenda", desc: "Mente in campo." },
-    { name: "Luis Enrique", role: "CEN", ovr: 85, price: 1.30, type: "legenda", desc: "Dinamismo." },
-    { name: "Simeone", role: "CEN", ovr: 86, price: 1.50, type: "legenda", desc: "El Cholo mastino." },
+    { name: "Fabinho", role: "CEN", ovr: 86, price: 1.50, type: "normal", desc: "Schermo." },
+    { name: "Guardiola", role: "CEN", ovr: 87, price: 1.50, type: "legenda", desc: "Mente." },
+    { name: "Luis Enrique", role: "CEN", ovr: 85, price: 1.30, type: "legenda", desc: "Dinamico." },
+    { name: "Simeone", role: "CEN", ovr: 86, price: 1.50, type: "legenda", desc: "El Cholo." },
     { name: "Verón", role: "CEN", ovr: 88, price: 1.80, type: "legenda", desc: "La Brujita." },
-    { name: "Riquelme", role: "CEN", ovr: 88, price: 1.80, type: "legenda", desc: "Trequartista geniale." },
-    { name: "Aimar", role: "CEN", ovr: 86, price: 1.50, type: "normal", desc: "Payasito sgusciante." },
+    { name: "Riquelme", role: "CEN", ovr: 88, price: 1.80, type: "legenda", desc: "Geniale." },
+    { name: "Aimar", role: "CEN", ovr: 86, price: 1.50, type: "normal", desc: "Payasito." },
     { name: "Taider", role: "CEN", ovr: 60, price: 1.00, type: "bidone", desc: "Correva a vuoto." },
-    { name: "Muntari", role: "CEN", ovr: 78, price: 1.00, type: "normal", desc: "Tackle vigorosi." },
+    { name: "Muntari", role: "CEN", ovr: 78, price: 1.00, type: "normal", desc: "Tackle." },
     { name: "Kondogbia", role: "CEN", ovr: 79, price: 1.00, type: "bidone", desc: "Luci e ombre." },
     { name: "Joao Mario", role: "CEN", ovr: 80, price: 1.00, type: "normal", desc: "Compassato." },
-    { name: "Felipe Melo", role: "CEN", ovr: 81, price: 1.00, type: "normal", desc: "Foga agonistica." },
-    { name: "Sturaro", role: "CEN", ovr: 75, price: 1.00, type: "normal", desc: "Impegno massimale." },
+    { name: "Felipe Melo", role: "CEN", ovr: 81, price: 1.00, type: "normal", desc: "Foga." },
+    { name: "Sturaro", role: "CEN", ovr: 75, price: 1.00, type: "normal", desc: "Impegno." },
     { name: "Hernanes", role: "CEN", ovr: 82, price: 1.10, type: "normal", desc: "Il profeta." },
     { name: "Gagliardini", role: "CEN", ovr: 76, price: 1.00, type: "normal", desc: "Lavoro oscuro." },
-    { name: "Bertolacci", role: "CEN", ovr: 74, price: 1.00, type: "bidone", desc: "Quotazioni svanite." },
-    { name: "Cerci", role: "CEN", ovr: 75, price: 1.00, type: "bidone", desc: "Sprazzi e poi il nulla." },
-    { name: "Biabiany", role: "CEN", ovr: 77, price: 1.00, type: "normal", desc: "Velocità senza cross." },
-    { name: "Laxalt", role: "CEN", ovr: 76, price: 1.00, type: "normal", desc: "Chioma bionda." },
+    { name: "Bertolacci", role: "CEN", ovr: 74, price: 1.00, type: "bidone", desc: "Meteora." },
+    { name: "Cerci", role: "CEN", ovr: 75, price: 1.00, type: "bidone", desc: "Sprazzi." },
+    { name: "Biabiany", role: "CEN", ovr: 77, price: 1.00, type: "normal", desc: "Velocità." },
+    { name: "Laxalt", role: "CEN", ovr: 76, price: 1.00, type: "normal", desc: "Biondo." },
     { name: "Paquetá", role: "CEN", ovr: 84, price: 1.20, type: "normal", desc: "Samba." },
     { name: "Almiron", role: "CEN", ovr: 74, price: 1.00, type: "bidone", desc: "Meteora." },
     { name: "Mudingayi", role: "CEN", ovr: 73, price: 1.00, type: "bidone", desc: "Muscoli." },
@@ -338,25 +335,24 @@
     { name: "Blasi", role: "CEN", ovr: 76, price: 1.00, type: "normal", desc: "Guerriero." },
     { name: "Brocchi", role: "CEN", ovr: 78, price: 1.00, type: "normal", desc: "Polmoni." },
 
-    // --- ATTACCANTI (40) ---
     { name: "Pelé", role: "ATT", ovr: 95, price: 4.50, type: "legenda", desc: "O Rei del gol." },
     { name: "Maradona", role: "ATT", ovr: 95, price: 4.50, type: "legenda", desc: "Il Futebol divino." },
-    { name: "Messi", role: "ATT", ovr: 95, price: 4.50, type: "legenda", desc: "Alieno del dribbling." },
+    { name: "Messi", role: "ATT", ovr: 95, price: 4.50, type: "legenda", desc: "Alieno." },
     { name: "Cristiano Ronaldo", role: "ATT", ovr: 94, price: 4.00, type: "legenda", desc: "Macchina da gol." },
     { name: "Ronaldo Nazario", role: "ATT", ovr: 94, price: 4.00, type: "legenda", desc: "Il Fenomeno." },
     { name: "Van Basten", role: "ATT", ovr: 93, price: 3.50, type: "legenda", desc: "Cigno di Utrecht." },
     { name: "Baggio", role: "ATT", ovr: 92, price: 3.00, type: "legenda", desc: "Codino divino." },
     { name: "Henry", role: "ATT", ovr: 92, price: 3.00, type: "legenda", desc: "Eleganza fatale." },
     { name: "Eusébio", role: "ATT", ovr: 93, price: 3.50, type: "legenda", desc: "Pantera nera." },
-    { name: "Gerd Müller", role: "ATT", ovr: 92, price: 3.00, type: "legenda", desc: "Bomber di scaltrezza." },
+    { name: "Gerd Müller", role: "ATT", ovr: 92, price: 3.00, type: "legenda", desc: "Bomber puro." },
     { name: "Romário", role: "ATT", ovr: 92, price: 3.00, type: "legenda", desc: "Genio d'area." },
     { name: "Del Piero", role: "ATT", ovr: 90, price: 2.50, type: "legenda", desc: "Gol nel sette." },
     { name: "Totti", role: "ATT", ovr: 90, price: 2.50, type: "legenda", desc: "Cucchiaio eterno." },
     { name: "Shevchenko", role: "ATT", ovr: 90, price: 2.50, type: "legenda", desc: "Freccia dell'Est." },
-    { name: "Inzaghi", role: "ATT", ovr: 88, price: 1.80, type: "legenda", desc: "In fuorigioco dalla nascita." },
+    { name: "Inzaghi", role: "ATT", ovr: 88, price: 1.80, type: "legenda", desc: "In fuorigioco permanente." },
     { name: "Vieri", role: "ATT", ovr: 89, price: 2.00, type: "legenda", desc: "Bobo ariete." },
     { name: "Ibrahimović", role: "ATT", ovr: 91, price: 2.80, type: "normal", desc: "Dio di Malmö." },
-    { name: "Lewandowski", role: "ATT", ovr: 90, price: 2.50, type: "normal", desc: "Cecchino polacco." },
+    { name: "Lewandowski", role: "ATT", ovr: 90, price: 2.50, type: "normal", desc: "Cecchino." },
     { name: "Benzema", role: "ATT", ovr: 90, price: 2.50, type: "normal", desc: "Pallone d'Oro." },
     { name: "Haaland", role: "ATT", ovr: 90, price: 2.00, type: "normal", desc: "Cyborg spietato." },
     { name: "Mbappé", role: "ATT", ovr: 91, price: 2.50, type: "normal", desc: "Velocità supersonica." },
@@ -366,14 +362,14 @@
     { name: "Kane", role: "ATT", ovr: 89, price: 2.00, type: "normal", desc: "Cecchino totale." },
     { name: "Lautaro Martinez", role: "ATT", ovr: 88, price: 1.80, type: "normal", desc: "Toro scatenato." },
     { name: "Osimhen", role: "ATT", ovr: 87, price: 1.50, type: "normal", desc: "Masked terror." },
-    { name: "Dybala", role: "ATT", ovr: 87, price: 1.50, type: "normal", desc: "La Joya mancina." },
+    { name: "Dybala", role: "ATT", ovr: 87, price: 1.50, type: "normal", desc: "La Joya." },
     { name: "Immobile", role: "ATT", ovr: 86, price: 1.50, type: "normal", desc: "Scarpa d'Oro." },
-    { name: "Vialli", role: "ATT", ovr: 89, price: 2.00, type: "legenda", desc: "Carisma e acrobazie." },
+    { name: "Vialli", role: "ATT", ovr: 89, price: 2.00, type: "legenda", desc: "Carisma." },
     { name: "Riva", role: "ATT", ovr: 91, price: 2.80, type: "legenda", desc: "Rombo di tuono." },
     { name: "Signori", role: "ATT", ovr: 87, price: 1.50, type: "legenda", desc: "Sinistro fulminante." },
     { name: "Zola", role: "ATT", ovr: 88, price: 1.80, type: "legenda", desc: "Magia tascabile." },
     { name: "Lord Bendtner", role: "ATT", ovr: 62, price: 1.00, type: "bidone", desc: "Si credeva il migliore." },
-    { name: "Gabigol", role: "ATT", ovr: 65, price: 1.00, type: "bidone", desc: "Più festeggiamenti che reti." },
+    { name: "Gabigol", role: "ATT", ovr: 65, price: 1.00, type: "bidone", desc: "Più festeggiamenti." },
     { name: "Amauri", role: "ATT", ovr: 68, price: 1.00, type: "bidone", desc: "Corpo estraneo." },
     { name: "Balotelli", role: "ATT", ovr: 81, price: 1.10, type: "normal", desc: "Genio e sregolatezza." },
     { name: "Adriano (Imperatore)", role: "ATT", ovr: 89, price: 2.00, type: "legenda", desc: "Sinistro atomico." },
@@ -398,8 +394,19 @@
 
   function startLocalGame() {
     isOnline = false;
+    currentIndex = 0;
+    p1.budget = 20.00; p1.team = []; p1.roles = { POR:0, DIF:0, CEN:0, ATT:0 };
+    p2.budget = 20.00; p2.team = []; p2.roles = { POR:0, DIF:0, CEN:0, ATT:0 };
+    players = shuffle([...rawPlayers]);
+
     document.getElementById("mode-selection").style.display = "none";
     document.getElementById("game-container").style.display = "block";
+    document.getElementById("auction-area").style.display = "block";
+    document.getElementById("match-area").style.display = "none";
+    document.getElementById("overall-summary-area").style.display = "none";
+    document.getElementById("result-area").style.display = "none";
+    
+    updateUI();
     loadCard();
   }
 
@@ -410,12 +417,19 @@
   }
 
   function createOnlineRoom() {
-    if (!db) return alert("Server offline!");
+    if (!db) return alert("Server offline! Controlla la connessione a Firebase.");
     isOnline = true; myPlayerNum = 1;
     currentRoomCode = Math.random().toString(36).substring(2, 6).toUpperCase();
+    
+    currentIndex = 0;
+    p1.budget = 20.00; p1.team = []; p1.roles = { POR:0, DIF:0, CEN:0, ATT:0 };
+    p2.budget = 20.00; p2.team = []; p2.roles = { POR:0, DIF:0, CEN:0, ATT:0 };
+    players = shuffle([...rawPlayers]);
+
     roomRef = db.ref("rooms/" + currentRoomCode);
     roomRef.set({ players, currentIndex:0, currentBid:0, highestBidder:null, p1, p2, status:"waiting" });
-    document.getElementById("room-status").innerText = "Stanza: " + currentRoomCode + " (In attesa...)";
+    document.getElementById("room-status").innerText = "Stanza: " + currentRoomCode + " (In attesa dell'amico...)";
+    
     roomRef.on("value", snap => {
       const d = snap.val(); if (!d) return;
       syncOnlineData(d);
@@ -428,9 +442,10 @@
 
   function joinOnlineRoom() {
     const code = document.getElementById("room-code-input").value.trim().toUpperCase();
-    if (code.length !== 4) return alert("Codice errato!");
+    if (code.length !== 4) return alert("Inserisci un codice valido a 4 lettere!");
     isOnline = true; myPlayerNum = 2; currentRoomCode = code;
     roomRef = db.ref("rooms/" + currentRoomCode);
+    
     roomRef.once("value", snap => {
       if (!snap.exists()) return alert("Stanza non trovata!");
       roomRef.update({ status: "ready" });
@@ -441,15 +456,23 @@
   }
 
   function syncOnlineData(d) {
-    players = d.players || players; currentIndex = d.currentIndex;
-    currentBid = d.currentBid; highestBidder = d.highestBidder;
-    Object.assign(p1, d.p1); Object.assign(p2, d.p2);
+    players = d.players || players; 
+    currentIndex = d.currentIndex;
+    currentBid = d.currentBid; 
+    highestBidder = d.highestBidder;
+    if (d.p1) Object.assign(p1, d.p1); 
+    if (d.p2) Object.assign(p2, d.p2);
     updateUI();
-    if (p1.team.length === 5 && p2.team.length === 5) showOverallSummary();
-    else if (currentIndex < players.length) renderCurrentCard();
+    
+    if (p1.team.length === 5 && p2.team.length === 5) {
+      showOverallSummary();
+    } else if (currentIndex < players.length) {
+      renderCurrentCard();
+    }
   }
 
   function renderCurrentCard() {
+    if (currentIndex >= players.length) return;
     const c = players[currentIndex];
     const cardBox = document.getElementById("card-box");
     cardBox.className = "card";
@@ -466,14 +489,32 @@
   }
 
   function loadCard() {
-    if (p1.team.length === 5 && p2.team.length === 5) return showOverallSummary();
-    if (currentIndex >= players.length) return showOverallSummary();
-    const c = players[currentIndex];
-    if (!canBuy(p1, c.role) && !canBuy(p2, c.role)) {
-      currentIndex++; if (isOnline) pushOnlineState(); else loadCard(); return;
+    if (p1.team.length === 5 && p2.team.length === 5) {
+      showOverallSummary();
+      return;
     }
-    currentBid = 0; highestBidder = null;
-    if (isOnline) pushOnlineState(); else renderCurrentCard();
+    
+    // Cerca una carta valida che almeno uno dei due possa comprare
+    while (currentIndex < players.length) {
+      const c = players[currentIndex];
+      if (canBuy(p1, c.role) || canBuy(p2, c.role)) {
+        break;
+      }
+      currentIndex++;
+    }
+
+    if (currentIndex >= players.length) {
+      showOverallSummary();
+      return;
+    }
+
+    currentBid = 0; 
+    highestBidder = null;
+    if (isOnline) {
+      pushOnlineState();
+    } else {
+      renderCurrentCard();
+    }
   }
 
   function canBuy(pObj, role) {
@@ -487,25 +528,45 @@
     if (isOnline && playerNum !== myPlayerNum) return alert("Attendi il tuo turno!");
     const pObj = playerNum === 1 ? p1 : p2;
     const c = players[currentIndex];
-    if (!canBuy(pObj, c.role)) return alert("Ruolo già completo!");
+    
+    if (!canBuy(pObj, c.role)) return alert("Hai già completato questo ruolo o la squadra è piena!");
 
     let nextBid = (highestBidder === null) ? raiseAmount : currentBid + raiseAmount;
     const needed = 4 - pObj.team.length;
-    if (nextBid > (pObj.budget - needed * 1.00)) return alert("Devi tenere almeno 1.00€ per ogni slot rimasto!");
+    if (nextBid > (pObj.budget - needed * 1.00)) return alert("Budget insufficiente! Devi lasciare almeno 1.00€ per ogni slot rimasto.");
 
-    currentBid = nextBid; highestBidder = playerNum;
-    if (isOnline) pushOnlineState(); else renderCurrentCard();
+    currentBid = nextBid; 
+    highestBidder = playerNum;
+    if (isOnline) {
+      pushOnlineState();
+    } else {
+      renderCurrentCard();
+    }
   }
 
   function passAuction() {
+    if (isOnline && myPlayerNum !== 1 && highestBidder === null) {
+      // In online, gestiamo i turni in modo fluido
+    }
+    
     if (highestBidder !== null) {
       const winner = highestBidder === 1 ? p1 : p2;
       const c = players[currentIndex];
-      winner.budget -= currentBid; winner.team.push(c); winner.roles[c.role]++;
+      winner.budget -= currentBid; 
+      winner.team.push(c); 
+      winner.roles[c.role]++;
       updateUI();
     }
+    
     currentIndex++;
-    if (isOnline) { currentBid = 0; highestBidder = null; pushOnlineState(); } else loadCard();
+    currentBid = 0; 
+    highestBidder = null;
+    
+    if (isOnline) {
+      pushOnlineState();
+    } else {
+      loadCard();
+    }
   }
 
   function pushOnlineState() {
@@ -521,7 +582,6 @@
     document.getElementById("p2-team").innerHTML = p2.team.map(p => `<li><strong>[${p.role}]</strong> ${p.name} (${p.ovr})</li>`).join('');
   }
 
-  // SCHERMATA RIEPILOGO OVERALL
   function showOverallSummary() {
     document.getElementById("auction-area").style.display = "none";
     document.getElementById("overall-summary-area").style.display = "block";
@@ -599,4 +659,11 @@
     document.getElementById("result-area").style.display = "block";
     let res = `<h3>Risultato Finale: G1 ${score1} - ${score2} G2</h3>`;
     if (score1 > score2) res += "<h1 style='color:#3498db;'>🏆 GIOCATORE 1 VINCE!</h1>";
-    else if (score2 > score1) res += "<h1 style='color:#e74c3c;'>🏆 GIOCATORE 2
+    else if (score2 > score1) res += "<h1 style='color:#e74c3c;'>🏆 GIOCATORE 2 VINCE!</h1>";
+    else res += "<h1>🤝 PAREGGIO!</h1>";
+    document.getElementById("winner-text").innerHTML = res;
+  }
+</script>
+
+</body>
+</html>
